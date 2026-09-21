@@ -3,7 +3,8 @@ import './VideoTheatre.css'
 
 interface VideoItem {
     id: number
-    url: string        // обычная ссылка на страницу видео в VK
+    embedUrl?: string
+    externalUrl: string
     title: string
     thumb: string
 }
@@ -13,25 +14,37 @@ const BASE = import.meta.env.BASE_URL
 const videos: VideoItem[] = [
     {
         id: 1,
-        url: 'https://vkvideo.ru/video-206140174_456240715',
+        // Если есть рабочий embed для актёрской визитки — впишите сюда
+        // embedUrl: 'https://vk.ru/video_ext.php?oid=-206140174&id=456240715&hash=ВАШ_HASH',
+        externalUrl: 'https://vkvideo.ru/video-206140174_456240715',
         title: 'Актёрская визитка "Я-Актёр!"',
         thumb: `${BASE}gallery/actress1.jpg`,
     },
     {
         id: 2,
-        url: 'https://vkvideo.ru/video-206140174_456240689',
+        externalUrl: 'https://vkvideo.ru/video-206140174_456240689',
         title: 'Спектакль - Кто ограбил миссис Рэббит (реж. Е.Апакова)',
         thumb: `${BASE}gallery/actress2.jpg`,
     },
     {
         id: 3,
-        url: 'https://vkvideo.ru/video-206140174_456240420',
+        externalUrl: 'https://vkvideo.ru/video-206140174_456240420',
         title: 'Про Рок "По барабану"',
         thumb: `${BASE}gallery/actress3.jpg`,
     },
 ]
 
-/** SVG-заглушка, если превью не загрузилось */
+function useIsMobile() {
+    const [isMobile, setIsMobile] = useState(false)
+    useEffect(() => {
+        const check = () => setIsMobile(window.matchMedia('(max-width: 768px)').matches)
+        check()
+        window.addEventListener('resize', check)
+        return () => window.removeEventListener('resize', check)
+    }, [])
+    return isMobile
+}
+
 const FALLBACK_SVG =
     'data:image/svg+xml;utf8,' +
     encodeURIComponent(`
@@ -50,6 +63,7 @@ export default function VideoTheatre() {
     const total = videos.length
     const [touchStart, setTouchStart] = useState<number | null>(null)
     const [videoFrameOpen, setVideoFrameOpen] = useState(false)
+    const isMobile = useIsMobile()
 
     const goNext = useCallback(() => setCurrent((c) => (c + 1) % total), [total])
     const goPrev = useCallback(() => setCurrent((c) => (c - 1 + total) % total), [total])
@@ -86,6 +100,8 @@ export default function VideoTheatre() {
         img.dataset.fallback = '1'
         img.src = FALLBACK_SVG
     }
+
+    const canEmbed = !isMobile && !!videos[current].embedUrl
 
     return (
         <section className="videotheatre-section">
@@ -181,37 +197,54 @@ export default function VideoTheatre() {
                             {'×'}
                         </button>
 
-                        <div className="video-player-preview-wrap">
-                            <img
-                                src={videos[current].thumb}
-                                alt={videos[current].title}
-                                className="video-player-preview"
-                                onError={handleThumbError}
+                        {canEmbed ? (
+                            <iframe
+                                src={videos[current].embedUrl}
+                                width="100%"
+                                height="450"
+                                frameBorder="0"
+                                allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                                allowFullScreen
+                                title={videos[current].title}
+                                className="video-player-iframe"
                             />
-                            <div className="video-player-preview-overlay">
-                                <div className="video-play-icon video-play-icon-large">
-                                    {'▶'}
+                        ) : (
+                            <div className="video-player-preview-wrap">
+                                <img
+                                    src={videos[current].thumb}
+                                    alt={videos[current].title}
+                                    className="video-player-preview"
+                                    onError={handleThumbError}
+                                />
+                                <div className="video-player-preview-overlay">
+                                    <div className="video-play-icon video-play-icon-large">
+                                        {'▶'}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        )}
 
                         <h4 className="video-player-title">
                             {videos[current].title}
                         </h4>
 
-                        <div className="video-player-fallback">
-                            <a
-                                href={videos[current].url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="video-player-link"
-                            >
-                                ▶ Смотреть в VK
-                            </a>
-                            <p className="video-player-note">
-                                Откроется в приложении VK или в новой вкладке
-                            </p>
-                        </div>
+                        {!canEmbed && (
+                            <div className="video-player-fallback">
+                                <a
+                                    href={videos[current].externalUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="video-player-link"
+                                >
+                                    ▶ Смотреть в VK
+                                </a>
+                                <p className="video-player-note">
+                                    {isMobile
+                                        ? 'Откроется в приложении VK или в новой вкладке'
+                                        : 'Откроется на сайте VK в новой вкладке'}
+                                </p>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

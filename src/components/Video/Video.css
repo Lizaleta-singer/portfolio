@@ -206,7 +206,7 @@
 }
 
 /* ============================================ */
-/*   VIDEO MODAL — PREVIEW + «СМОТРЕТЬ В VK»    */
+/*   VIDEO MODAL — PREVIEW + IFRAME + CTA       */
 /* ============================================ */
 
 .video-player-overlay {
@@ -262,7 +262,16 @@
     transform: scale(1.1) rotate(90deg);
 }
 
-/* Обёртка превью */
+/* ===== Встроенный VK-плеер (iframe) ===== */
+.video-player-iframe {
+    width: 100%;
+    height: 450px;
+    border: none;
+    display: block;
+    background: #0a0514;
+}
+
+/* ===== Обёртка превью (fallback) ===== */
 .video-player-preview-wrap {
     position: relative;
     width: 100%;
@@ -309,7 +318,7 @@
     50%      { transform: scale(1.08); }
 }
 
-/* Video title below preview */
+/* Video title below player/preview */
 .video-player-title {
     padding: 16px 24px;
     font-family: 'Montserrat', sans-serif;
@@ -396,6 +405,10 @@
         font-size: 1.4rem;
     }
 
+    .video-player-iframe {
+        height: 240px;   /* компактнее на мобильном, если iframe всё-таки показывается */
+    }
+
     .video-player-title {
         font-size: 0.95rem;
         padding: 14px 18px;
@@ -436,5 +449,9 @@
         width: 66px;
         height: 66px;
         font-size: 2.2rem;
+    }
+
+    .video-player-iframe {
+        height: 200px;
     }
 }

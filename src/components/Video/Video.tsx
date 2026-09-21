@@ -3,46 +3,61 @@ import './Video.css'
 
 interface VideoItem {
     id: number
-    url: string        // обычная ссылка на страницу видео в VK
+    embedUrl?: string      // embed-URL для десктопного iframe
+    externalUrl: string    // обычная ссылка для «Смотреть в VK»
     title: string
-    thumb: string      // путь к превью-картинке
+    thumb: string
 }
 
-// ✅ BASE подставляется Vite: './' при локальной сборке, '/portfolio/' на GitHub Pages
 const BASE = import.meta.env.BASE_URL
 
 const videos: VideoItem[] = [
     {
         id: 1,
-        url: 'https://vk.ru/id200003545703?z=video200003545703_456239024%2Fc113a2323ebded1496%2Fpl_wall_200003545703',
+        // ✅ рабочий embed с hash (получен вами из VK → «Экспортировать»)
+        embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239024&hash=c78387867f2b0f92',
+        externalUrl: 'https://vk.ru/id200003545703?z=video200003545703_456239024%2Fc113a2323ebded1496%2Fpl_wall_200003545703',
         title: 'Выступление в Гимназии №2 Волгограда "Сказочный билет"',
         thumb: `${BASE}gallery/foto3.jpg`,
     },
     {
         id: 2,
-        url: 'https://vkvideo.ru/video-206140174_456240715',
+        // ❌ embedUrl не указан — для этого видео нет hash
+        externalUrl: 'https://vkvideo.ru/video-206140174_456240715',
         title: 'Выступление в Мармеладе',
         thumb: `${BASE}gallery/foto1.jpg`,
     },
     {
         id: 3,
-        url: 'https://vkvideo.ru/video200003545703_456239025',
+        // ❌ embedUrl не указан
+        externalUrl: 'https://vkvideo.ru/video200003545703_456239025',
         title: 'Выступление в Мармеладе "Сказочный билет"',
         thumb: `${BASE}gallery/foto2.jpg`,
     },
 ]
+
+/** Хук: true, если ширина экрана ≤ 768px */
+function useIsMobile() {
+    const [isMobile, setIsMobile] = useState(false)
+    useEffect(() => {
+        const check = () => setIsMobile(window.matchMedia('(max-width: 768px)').matches)
+        check()
+        window.addEventListener('resize', check)
+        return () => window.removeEventListener('resize', check)
+    }, [])
+    return isMobile
+}
 
 export default function Video() {
     const [current, setCurrent] = useState(0)
     const total = videos.length
     const [touchStart, setTouchStart] = useState<number | null>(null)
     const [videoFrameOpen, setVideoFrameOpen] = useState(false)
+    const isMobile = useIsMobile()
 
-    // Navigation — click/swipe/keyboard
     const goNext = useCallback(() => setCurrent((c) => (c + 1) % total), [total])
     const goPrev = useCallback(() => setCurrent((c) => (c - 1 + total) % total), [total])
 
-    // Touch swipe support
     const handleTouchStart = (e: React.TouchEvent) => {
         setTouchStart(e.touches[0].clientX)
     }
@@ -56,7 +71,6 @@ export default function Video() {
         setTouchStart(null)
     }
 
-    // Keyboard navigation
     useEffect(() => {
         const handleKey = (e: KeyboardEvent) => {
             if (e.key === 'ArrowRight') goNext()
@@ -69,6 +83,9 @@ export default function Video() {
 
     const openVideoFrame = () => setVideoFrameOpen(true)
     const closeVideoFrame = () => setVideoFrameOpen(false)
+
+    // Может ли текущее видео быть встроено (только на десктопе и при наличии embedUrl)
+    const canEmbed = !isMobile && !!videos[current].embedUrl
 
     return (
         <section className="video-section">
@@ -147,7 +164,7 @@ export default function Video() {
                 </p>
             </div>
 
-            {/* Video Modal — превью + кнопка «Смотреть в VK» */}
+            {/* Video Modal */}
             {videoFrameOpen && (
                 <div
                     className="video-player-overlay"
@@ -165,39 +182,56 @@ export default function Video() {
                             {'×'}
                         </button>
 
-                        {/* Превью видео */}
-                        <div className="video-player-preview-wrap">
-                            <img
-                                src={videos[current].thumb}
-                                alt={videos[current].title}
-                                className="video-player-preview"
+                        {canEmbed ? (
+                            /* --- РЕЖИМ 1: встроенный VK-плеер (только десктоп) --- */
+                            <iframe
+                                src={videos[current].embedUrl}
+                                width="100%"
+                                height="450"
+                                frameBorder="0"
+                                allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                                allowFullScreen
+                                title={videos[current].title}
+                                className="video-player-iframe"
                             />
-                            <div className="video-player-preview-overlay">
-                                <div className="video-play-icon video-play-icon-large">
-                                    {'▶'}
+                        ) : (
+                            /* --- РЕЖИМ 2: превью + кнопка «Смотреть в VK» --- */
+                            <div className="video-player-preview-wrap">
+                                <img
+                                    src={videos[current].thumb}
+                                    alt={videos[current].title}
+                                    className="video-player-preview"
+                                />
+                                <div className="video-player-preview-overlay">
+                                    <div className="video-play-icon video-play-icon-large">
+                                        {'▶'}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        )}
 
-                        {/* Заголовок */}
                         <h4 className="video-player-title">
                             {videos[current].title}
                         </h4>
 
-                        {/* Кнопка перехода в VK */}
-                        <div className="video-player-fallback">
-                            <a
-                                href={videos[current].url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="video-player-link"
-                            >
-                                ▶ Смотреть в VK
-                            </a>
-                            <p className="video-player-note">
-                                Откроется в приложении VK или в новой вкладке
-                            </p>
-                        </div>
+                        {/* Кнопка «Смотреть в VK» — показываем если нет встроенного плеера */}
+                        {!canEmbed && (
+                            <div className="video-player-fallback">
+                                <a
+                                    href={videos[current].externalUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="video-player-link"
+                                >
+                                    ▶ Смотреть в VK
+                                </a>
+                                <p className="video-player-note">
+                                    {isMobile
+                                        ? 'Откроется в приложении VK или в новой вкладке'
+                                        : 'Откроется на сайте VK в новой вкладке'}
+                                </p>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}
