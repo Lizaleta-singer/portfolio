@@ -1,145 +1,157 @@
 /* ===== HEADER - SMOOTH TRANSITION HERO → SCROLLED ===== */
 .header {
     position: fixed;
-     top: 0;
-          left: 0;
-               right: 0;
-                    z-index: 1000;
-                         padding: 24px 0;
-                              background: linear-gradient(180deg, rgba(255,248,252,0) 0%, rgba(255,248,252,0.9) 80%);
-                                   transition: all 0.4s ease;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 24px 0;
+    background: linear-gradient(180deg, rgba(255, 248, 252, 0) 0%, rgba(255, 248, 252, 0.9) 80%);
+    transition: all 0.4s ease;
 }
 
 .header.scrolled {
-     background: #fff;
-          box-shadow: 0 2px 20px rgba(155, 93, 229, 0.15);
-               padding: 16px 0;
-                    backdrop-filter: blur(10px);
+    background: #fff;
+    box-shadow: 0 2px 20px rgba(155, 93, 229, 0.15);
+    padding: 16px 0;
+    backdrop-filter: blur(10px);
 }
 
 .header-content {
-     display: flex;
-         align-items: center;
-              justify-content: space-between;
-                   max-width: 1100px;
-                        margin: 0 auto;
-                             padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
 }
 
 /* ===== LOGO - CLEAR ON HERO ===== */
 .header-logo {
-     display: flex;
-         align-items: center;
-              gap: 10px;
-                   text-decoration: none;
-                        transition: transform 0.3s;
-                             }
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    transition: transform 0.3s;
+}
 
 .header-logo:hover {
     transform: scale(1.05);
-          }
+}
 
 .logo-icon {
-     font-size: 1.8rem;
-         color: #fff;
-              text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-                   animation: float 4s ease-in-out infinite;
+    font-size: 1.8rem;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    animation: float 4s ease-in-out infinite;
 }
 
 .header.scrolled .logo-icon {
-     color: var(--color-pink);
-         text-shadow: none;
-                }
+    color: var(--color-pink);
+    text-shadow: none;
+}
 
 .logo-text {
-     font-family: var(--font-heading);
-          font-size: 1.5rem;
-               font-weight: 700;
-                    color: #fff;
-                         text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-                              transition: color 0.4s ease, text-shadow 0.4s;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: color 0.4s ease, text-shadow 0.4s;
 }
 
 .header.scrolled .logo-text {
-     background: linear-gradient(135deg, var(--color-pink), var(--color-purple));
-          -webkit-background-clip: text;
-               -webkit-text-fill-color: transparent;
-                    background-clip: text;
-                         text-shadow: none;
-                                    }
+    background: linear-gradient(135deg, var(--color-pink), var(--color-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+}
 
 /* ===== NAV ITEMS - CLEAR ON HERO ===== */
 .header-nav {
-     display: flex;
-         align-items: center;
-              gap: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .header-menu {
-     display: flex;
-          gap: 8px;
-               list-style: none;
-                    margin: 0;
-                         padding: 0;
-                              }
+    display: flex;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
 
 .header-menu li a {
-     display: block;
-          padding: 10px 16px;
-               text-decoration: none;
-                    color: #fff;
-                         font-size: 0.95rem;
-                              font-weight: 600;
-                                   border-radius: 24px;
-                                        transition: all 0.3s ease;
+    display: block;
+    padding: 10px 16px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 24px;
+    transition: all 0.3s ease;
 }
 
 .header-menu li a:hover {
-     background: rgba(255, 255, 255, 0.2);
-          color: #fff;
-                 text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .header.scrolled .header-menu li a {
-     color: var(--color-dark);
-              background: transparent;
-                       }
+    color: var(--color-dark);
+    background: transparent;
+}
 
 .header.scrolled .header-menu li a:hover {
-     background: var(--color-lavender);
-          color: var(--color-purple);
-                 text-shadow: none;
-                        }
+    background: var(--color-lavender);
+    color: var(--color-purple);
+    text-shadow: none;
+}
 
 /* ===== MOBILE MENU BUTTON - CLEAR ON HERO ===== */
 .header-menu-btn {
-     display: none;
-         flex-direction: column;
-              justify-content: center;
-                   align-items: center;
-                        width: 44px;
-                             height: 44px;
-                                  background: rgba(255, 255, 255, 0.1);
-                                       border: 2px solid rgba(255, 255, 255, 0.4);
-                                            cursor: pointer;
-                                                 gap: 6px;
-                                                      padding: 0;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    gap: 6px;
+    padding: 0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+/* Убираем синюю рамку фокуса у кнопки-гамбургера */
+.header-menu-btn:focus {
+    outline: none;
+}
+
+.header-menu-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(155, 93, 229, 0.45);
 }
 
 .menu-line {
-     display: block;
-          width: 24px;
-               height: 2px;
-                    background: #fff;
-                         border-radius: 2px;
-                              transition: all 0.3s ease;
-                                     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .header.scrolled .menu-line {
-     background: var(--color-dark);
-          text-shadow: none;
-                   }
+    background: var(--color-dark);
+    text-shadow: none;
+}
 
 /* Mobile hamburger */
 .menu-line-1 { transform-origin: center; }
@@ -150,38 +162,63 @@
 .fade-out { opacity: 0; width: 0; }
 .rotate-minus45 { transform: rotate(-45deg) translateY(-6px); }
 
-/* ===== RESPONSIVE ===== */
+/* ============================================================
+   ===== RESPONSIVE — МОБИЛЬНОЕ МЕНЮ =====
+   ============================================================ */
 @media (max-width: 768px) {
-       .header-menu-btn {
-          display: flex;
-               }
+    .header-menu-btn {
+        display: flex;
+    }
 
-                .header-menu {
-                   position: absolute;
-                        top: 100%;
-                             left: 0;
-                                  right: 0;
-                                       background: rgba(255, 248, 252, 0.98);
-                                            backdrop-filter: blur(15px);
-                                                 flex-direction: column;
-                                                      padding: 20px;
-                                                           gap: 4px;
-                                                                box-shadow: 0 10px 30px rgba(155, 93, 229, 0.1);
-                                                                     transform: translateY(-10px);
-                                                                          opacity: 0;
-                                                                               pointer-events: none;
-                                                                                    transition: all 0.3s ease;
-                                                                                             }
+    /* ✅ Меню — фиксированное под шапкой, перекрывает Hero */
+    .header-menu {
+        position: fixed;
+        top: 76px;              /* высота шапки, уточните при необходимости */
+        left: 0;
+        right: 0;
+        z-index: 999;           /* ниже .header (1000), но выше Hero */
 
-                .header-menu.open {
-                   transform: translateY(0);
-                        opacity: 1;
-                             pointer-events: auto;
-                                      }
+        flex-direction: column;
+        padding: 16px 20px 24px;
+        gap: 4px;
 
-                          .header-menu li a {
-                             font-size: 1.1rem;
-                                  text-align: center;
-                                       padding: 12px;
-                                                }
-                                                     }
+        /* ✅ НЕПРОЗРАЧНЫЙ светлый фон — ничего не просвечивает */
+        background: #ffffff;
+        box-shadow: 0 20px 40px rgba(45, 27, 78, 0.25);
+        border-top: 1px solid rgba(155, 93, 229, 0.15);
+
+        /* Плавное появление */
+        transform: translateY(-10px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .header-menu.open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* ✅ Тёмный текст на светлом фоне — контраст высокий */
+    .header-menu li a {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2d1b4e;              /* ← ключевое исправление */
+        text-align: center;
+        padding: 14px 12px;
+        border-radius: 12px;
+        text-shadow: none;           /* убираем тень от белого текста */
+    }
+
+    .header-menu li a:hover,
+    .header-menu li a:active {
+        color: #9B5DE5;
+        background: rgba(155, 93, 229, 0.08);
+    }
+
+    /* Разделители между пунктами */
+    .header-menu li + li {
+        border-top: 1px solid rgba(155, 93, 229, 0.08);
+    }
+}
