@@ -3,8 +3,7 @@ import './Video.css'
 
 interface VideoItem {
     id: number
-    embedUrl?: string      // iframe на десктопе (только с рабочим hash)
-    externalUrl: string    // ссылка для «Смотреть в VK» и мобильной версии
+    url: string         // ссылка на видео VK — используется и для iframe, и для кнопки
     title: string
     thumb: string
 }
@@ -14,20 +13,19 @@ const BASE = import.meta.env.BASE_URL
 const videos: VideoItem[] = [
     {
         id: 1,
-        embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239024&hash=c78387867f2b0f92',
-        externalUrl: 'https://vk.ru/id200003545703?z=video200003545703_456239024%2Fc113a2323ebded1496%2Fpl_wall_200003545703',
+        url: 'https://vkvideo.ru/video200003545703_456239024',
         title: 'Выступление в Гимназии №2 Волгограда "Сказочный билет"',
         thumb: `${BASE}gallery/foto3.jpg`,
     },
     {
         id: 2,
-        externalUrl: 'https://vkvideo.ru/video-206140174_456240715',
+        url: 'https://vkvideo.ru/video-206140174_456240715',
         title: 'Выступление в Мармеладе',
         thumb: `${BASE}gallery/foto1.jpg`,
     },
     {
         id: 3,
-        externalUrl: 'https://vkvideo.ru/video200003545703_456239025',
+        url: 'https://vkvideo.ru/video200003545703_456239025',
         title: 'Выступление в Мармеладе "Сказочный билет"',
         thumb: `${BASE}gallery/foto2.jpg`,
     },
@@ -54,9 +52,7 @@ export default function Video() {
     const goNext = useCallback(() => setCurrent((c) => (c + 1) % total), [total])
     const goPrev = useCallback(() => setCurrent((c) => (c - 1 + total) % total), [total])
 
-    const handleTouchStart = (e: React.TouchEvent) => {
-        setTouchStart(e.touches[0].clientX)
-    }
+    const handleTouchStart = (e: React.TouchEvent) => setTouchStart(e.touches[0].clientX)
 
     const handleTouchEnd = (e: React.TouchEvent) => {
         if (touchStart === null) return
@@ -77,78 +73,36 @@ export default function Video() {
         return () => window.removeEventListener('keydown', handleKey)
     }, [goNext, goPrev])
 
-    /**
-     * Клик по превью — ВСЕГДА открывает модалку.
-     * Внутри модалки решаем, показывать iframe или превью+кнопку.
-     */
-    const handleVideoClick = (index: number) => {
-        setCurrent(index)
-        setVideoFrameOpen(true)
-    }
-
+    const openVideoFrame = () => setVideoFrameOpen(true)
     const closeVideoFrame = () => setVideoFrameOpen(false)
 
     const modalNext = () => setCurrent((c) => (c + 1) % total)
     const modalPrev = () => setCurrent((c) => (c - 1 + total) % total)
-
-    // ✅ Логика отображения в модалке:
-    //    - Десктоп + есть embedUrl → iframe
-    //    - Всё остальное              → превью + кнопка «Смотреть в VK»
-    const showIframe = !isMobile && !!videos[current].embedUrl
 
     return (
         <section className="video-section">
             <div className="container">
                 <h2 className="section-title">Выступления</h2>
 
-                <div
-                    className="video-carousel"
-                    onTouchStart={handleTouchStart}
-                    onTouchEnd={handleTouchEnd}
-                >
-                    <button
-                        className="video-nav video-prev"
-                        onClick={goPrev}
-                        aria-label="Предыдущее видео"
-                    >
-                        {'←'}
-                    </button>
+                <div className="video-carousel" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+                    <button className="video-nav video-prev" onClick={goPrev} aria-label="Предыдущее видео">{'←'}</button>
 
                     <div className="video-slides">
                         {videos.map((v, i) => (
-                            <div
-                                key={v.id}
-                                className={`video-slide ${current === i ? 'active' : ''}`}
-                            >
-                                <div
-                                    className="video-play-area"
-                                    onClick={() => handleVideoClick(i)}
-                                >
+                            <div key={v.id} className={`video-slide ${current === i ? 'active' : ''}`}>
+                                <div className="video-play-area" onClick={openVideoFrame}>
                                     {v.thumb && (
-                                        <img
-                                            src={v.thumb}
-                                            alt={v.title}
-                                            className="video-slide-preview"
-                                            loading="lazy"
-                                        />
+                                        <img src={v.thumb} alt={v.title} className="video-slide-preview" loading="lazy" />
                                     )}
                                     <div className="video-play-icon">{'▶'}</div>
                                     <h3 className="video-title">{v.title}</h3>
-                                    <span className="video-hint">
-                                        {'🎬'} Нажмите для просмотра видео
-                                    </span>
+                                    <span className="video-hint">{'🎬'} Нажмите для просмотра видео</span>
                                 </div>
                             </div>
                         ))}
                     </div>
 
-                    <button
-                        className="video-nav video-next"
-                        onClick={goNext}
-                        aria-label="Следующее видео"
-                    >
-                        {'→'}
-                    </button>
+                    <button className="video-nav video-next" onClick={goNext} aria-label="Следующее видео">{'→'}</button>
                 </div>
 
                 <div className="video-dots">
@@ -164,110 +118,93 @@ export default function Video() {
 
                 <div className="video-progress-bar">
                     {Array.from({ length: total }, (_, i) => (
-                        <div
-                            key={i}
-                            className={`video-progress-segment ${i <= current ? 'filled' : ''}`}
-                        />
+                        <div key={i} className={`video-progress-segment ${i <= current ? 'filled' : ''}`} />
                     ))}
                 </div>
 
-                <p className="video-hint-text">
-                    {'👻'} Листайте нажатием или стрелками
-                </p>
+                <p className="video-hint-text">{'👻'} Листайте нажатием или стрелками</p>
             </div>
 
             {videoFrameOpen && (
-                <div
-                    className="video-player-overlay"
-                    onClick={closeVideoFrame}
-                >
-                    {/* стрелка назад */}
+                <div className="video-player-overlay" onClick={closeVideoFrame}>
                     <button
                         className="video-modal-nav video-modal-prev"
                         onClick={(e) => { e.stopPropagation(); modalPrev() }}
                         aria-label="Предыдущее видео"
-                    >
-                        {'←'}
-                    </button>
+                    >{'←'}</button>
 
-                    <div
-                        className="video-player-content"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <button
-                            className="video-player-close"
-                            onClick={closeVideoFrame}
-                            aria-label="Закрыть"
-                        >
-                            {'×'}
-                        </button>
+                    <div className="video-player-content" onClick={(e) => e.stopPropagation()}>
+                        <button className="video-player-close" onClick={closeVideoFrame} aria-label="Закрыть">{'×'}</button>
 
-                        {showIframe ? (
-                            /* ----- ДЕСКТОП + есть embedUrl: iframe ----- */
-                            <iframe
-                                src={videos[current].embedUrl}
-                                width="100%"
-                                height="450"
-                                frameBorder="0"
-                                allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-                                allowFullScreen
-                                title={videos[current].title}
-                                className="video-player-iframe"
-                            />
-                        ) : (
-                            /* ----- Мобильный ИЛИ нет embedUrl: превью + кнопка ----- */
-                            <div className="video-player-preview-wrap">
-                                <img
-                                    src={videos[current].thumb}
-                                    alt={videos[current].title}
-                                    className="video-player-preview"
-                                />
-                                <div className="video-player-preview-overlay">
-                                    <div className="video-play-icon video-play-icon-large">
-                                        {'▶'}
+                        {isMobile ? (
+                            /* ---------- МОБИЛЬНЫЙ: превью + кнопка ---------- */
+                            <>
+                                <div className="video-player-preview-wrap">
+                                    <img
+                                        src={videos[current].thumb}
+                                        alt={videos[current].title}
+                                        className="video-player-preview"
+                                    />
+                                    <div className="video-player-preview-overlay">
+                                        <div className="video-play-icon video-play-icon-large">{'▶'}</div>
                                     </div>
                                 </div>
-                            </div>
-                        )}
 
-                        <h4 className="video-player-title">
-                            {videos[current].title}
-                        </h4>
+                                <h4 className="video-player-title">{videos[current].title}</h4>
 
-                        {!showIframe && (
-                            <div className="video-player-fallback">
-                                <a
-                                    href={videos[current].externalUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="video-player-link"
-                                >
-                                    ▶ Смотреть в VK
-                                </a>
-                                <p className="video-player-note">
-                                    {isMobile
-                                        ? 'Откроется в приложении VK или в новой вкладке'
-                                        : 'Откроется на сайте VK в новой вкладке'}
-                                </p>
-                            </div>
+                                <div className="video-player-fallback">
+                                    <a
+                                        href={videos[current].url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="video-player-link"
+                                    >
+                                        ▶ Смотреть в VK
+                                    </a>
+                                    <p className="video-player-note">
+                                        Откроется в приложении VK или в новой вкладке
+                                    </p>
+                                </div>
+                            </>
+                        ) : (
+                            /* ---------- ДЕСКТОП: iframe с внешней ссылкой ---------- */
+                            <>
+                                <iframe
+                                    src={videos[current].url}
+                                    width="100%"
+                                    height="450"
+                                    frameBorder="0"
+                                    allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                                    allowFullScreen
+                                    title={videos[current].title}
+                                    className="video-player-iframe"
+                                />
+                                <h4 className="video-player-title">{videos[current].title}</h4>
+                                <div className="video-player-fallback">
+                                    <p className="video-player-note">Не отображается видео?</p>
+                                    <a
+                                        href={videos[current].url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="video-player-link"
+                                    >
+                                        Открыть видео на сайте VK →
+                                    </a>
+                                </div>
+                            </>
                         )}
 
                         <div className="video-modal-counter">
                             {current + 1} / {total}
-                            <span className="video-modal-hint">
-                                {' '}· Листайте стрелками ← →
-                            </span>
+                            <span className="video-modal-hint"> · Листайте стрелками ← →</span>
                         </div>
                     </div>
 
-                    {/* стрелка вперёд */}
                     <button
                         className="video-modal-nav video-modal-next"
                         onClick={(e) => { e.stopPropagation(); modalNext() }}
                         aria-label="Следующее видео"
-                    >
-                        {'→'}
-                    </button>
+                    >{'→'}</button>
                 </div>
             )}
         </section>
