@@ -3,7 +3,8 @@ import './Video.css'
 
 interface VideoItem {
     id: number
-    url: string          // обычная ссылка на VK-видео (vkvideo.ru/...)
+    embedUrl: string      // VK embed-ссылка с hash (для iframe)
+    externalUrl: string   // обычная ссылка — на случай «открыть в VK»
     title: string
     thumb: string
 }
@@ -13,41 +14,46 @@ const BASE = import.meta.env.BASE_URL
 const videos: VideoItem[] = [
     {
         id: 1,
-        url: 'https://vkvideo.ru/video200003545703_456239024',
-        title: 'Выступление в Гимназии №2 Волгограда "Сказочный билет"',
+        embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239028&hash=0adb4c983b056474',
+        externalUrl: 'https://vkvideo.ru/video200003545703_456239028',
+        title: 'Выступление в ТРЦ Акварель "Я обиделась"',
         thumb: `${BASE}gallery/foto3.jpg`,
     },
     {
         id: 2,
-        url: 'https://vkvideo.ru/video-206140174_456240715',
-        title: 'Выступление в Мармеладе',
+        embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239024&hash=c78387867f2b0f92',
+        externalUrl: 'https://vkvideo.ru/video200003545703_456239028',
+        title: 'Выступление на последнем звонке Гимназия №2 "Сказочный билет"',
         thumb: `${BASE}gallery/foto1.jpg`,
     },
     {
         id: 3,
-        url: 'https://vkvideo.ru/video200003545703_456239025',
+        embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239025&hash=349214b61a70ee90',
+        externalUrl: 'https://vkvideo.ru/video200003545703_456239025',
         title: 'Выступление в Мармеладе "Сказочный билет"',
         thumb: `${BASE}gallery/foto2.jpg`,
     },
+    {
+        id: 4,
+        embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239030&hash=907c6967c50f2886',
+        externalUrl: 'https://vkvideo.ru/video200003545703_456239030',
+        title: 'Москва. Всероссийский конкурс TOP MUSIC Финал. Лауреат 1 степени (5 лет) "Мир вам, люди!"',
+        thumb: `${BASE}gallery/foto2.jpg`,
+    },
+    {
+        id: 5,
+        embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239031&hash=460b0c5114938c1c',
+        externalUrl: 'https://vkvideo.ru/video200003545703_456239031',
+        title: 'Москва. Всероссийский конкурс TOP MUSIC Финал. Лауреат 1 степени (5 лет) "Что такое лужа"',
+        thumb: `${BASE}gallery/foto2.jpg`,
+    },
 ]
-
-function useIsMobile() {
-    const [isMobile, setIsMobile] = useState(false)
-    useEffect(() => {
-        const check = () => setIsMobile(window.matchMedia('(max-width: 768px)').matches)
-        check()
-        window.addEventListener('resize', check)
-        return () => window.removeEventListener('resize', check)
-    }, [])
-    return isMobile
-}
 
 export default function Video() {
     const [current, setCurrent] = useState(0)
     const total = videos.length
     const [touchStart, setTouchStart] = useState<number | null>(null)
     const [videoFrameOpen, setVideoFrameOpen] = useState(false)
-    const isMobile = useIsMobile()
 
     const goNext = useCallback(() => setCurrent((c) => (c + 1) % total), [total])
     const goPrev = useCallback(() => setCurrent((c) => (c - 1 + total) % total), [total])
@@ -82,7 +88,7 @@ export default function Video() {
     return (
         <section className="video-section">
             <div className="container">
-                <h2 className="section-title">Выступления</h2>
+                <h2 className="section-title">Концертные видео</h2>
 
                 <div className="video-carousel" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
                     <button className="video-nav video-prev" onClick={goPrev} aria-label="Предыдущее видео">{'←'}</button>
@@ -136,50 +142,35 @@ export default function Video() {
                     <div className="video-player-content" onClick={(e) => e.stopPropagation()}>
                         <button className="video-player-close" onClick={closeVideoFrame} aria-label="Закрыть">{'×'}</button>
 
-                        {isMobile ? (
-                            /* ======== МОБИЛЬНЫЙ ======== */
-                            <>
-                                <div className="video-player-preview-wrap">
-                                    <img
-                                        src={videos[current].thumb}
-                                        alt={videos[current].title}
-                                        className="video-player-preview"
-                                    />
-                                    <div className="video-player-preview-overlay">
-                                        <div className="video-play-icon video-play-icon-large">{'▶'}</div>
-                                    </div>
-                                </div>
+                        {/* ✅ Всегда iframe с VK embed — работает и на ПК, и на мобильном */}
+                        <div className="video-player-iframe-wrap">
+                            <iframe
+                                src={videos[current].embedUrl}
+                                width="100%"
+                                height="100%"
+                                frameBorder="0"
+                                allowFullScreen
+                                allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                                title={videos[current].title}
+                                className="video-player-iframe"
+                            />
+                        </div>
 
-                                <h4 className="video-player-title">{videos[current].title}</h4>
+                        <h4 className="video-player-title">{videos[current].title}</h4>
 
-                                <div className="video-player-fallback">
-                                    <a
-                                        href={videos[current].url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="video-player-link"
-                                    >▶ Смотреть в VK</a>
-                                    <p className="video-player-note">
-                                        Откроется в приложении VK или в новой вкладке
-                                    </p>
-                                </div>
-                            </>
-                        ) : (
-                            /* ======== ДЕСКТОП — всегда iframe ======== */
-                            <>
-                                <iframe
-                                    src={videos[current].url}
-                                    width="100%"
-                                    height="450"
-                                    frameBorder="0"
-                                    allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-                                    allowFullScreen
-                                    title={videos[current].title}
-                                    className="video-player-iframe"
-                                />
-                                <h4 className="video-player-title">{videos[current].title}</h4>
-                            </>
-                        )}
+                        <div className="video-player-fallback">
+                            <a
+                                href={videos[current].externalUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="video-player-link"
+                            >
+                                ▶ Открыть в VK
+                            </a>
+                            <p className="video-player-note">
+                                На случай, если видео не воспроизводится
+                            </p>
+                        </div>
 
                         <div className="video-modal-counter">
                             {current + 1} / {total}

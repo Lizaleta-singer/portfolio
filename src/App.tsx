@@ -35,9 +35,9 @@ function App() {
     const navItems = [
         { label: 'Главная', href: '#hero' },
         { label: 'Обо мне', href: '#about' },
-        { label: 'Фотогалерея', href: '#photogallery' },
-        { label: 'Видео', href: '#video' },
+        { label: 'Концертные видео', href: '#video' },
         { label: 'Актёрская школа', href: '#videotheatre' },
+        { label: 'Фотогалерея', href: '#photogallery' },
         { label: 'Достижения', href: '#achievements' },
         { label: 'Контакты', href: '#contact' },
     ]
@@ -59,16 +59,16 @@ function App() {
                     <About />
                 </section>
 
-                <section id="photogallery" style={{ padding: '80px 24px', background: '#fff', minHeight: '60vh' }}>
-                    <PhotoGallery />
-                </section>
-
                 <section id="video" style={{ padding: '80px 24px', background: '#f8f8ff', minHeight: '60vh' }}>
                     <Video />
                 </section>
 
                 <section id="videotheatre" style={{ padding: '80px 24px', background: '#fff', minHeight: '60vh' }}>
                     <VideoTheatre />
+                </section>
+
+                <section id="photogallery" style={{ padding: '80px 24px', background: '#fff', minHeight: '60vh' }}>
+                    <PhotoGallery />
                 </section>
 
                 <section id="achievements" style={{ padding: '80px 24px', background: '#f8f8ff', minHeight: '60vh' }}>

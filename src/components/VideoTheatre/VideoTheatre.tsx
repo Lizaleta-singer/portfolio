@@ -14,24 +14,30 @@ const BASE = import.meta.env.BASE_URL
 const videos: VideoItem[] = [
     {
         id: 1,
-        // ⚠️ Замените на реальный embed-URL актёрской визитки
-        embedUrl: 'https://vk.ru/video_ext.php?oid=-206140174&id=456240715&hash=ВАШ_HASH_1',
-        externalUrl: 'https://vkvideo.ru/video-206140174_456240715',
-        title: 'Актёрская визитка "Я-Актёр!"',
+        embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239026&hash=7b74ef99fc09f696',
+        externalUrl: 'https://vkvideo.ru/video200003545703_456239026',
+        title: 'Актёрская видеовизитка',
         thumb: `${BASE}gallery/actress1.jpg`,
     },
     {
         id: 2,
-        embedUrl: 'https://vk.ru/video_ext.php?oid=-206140174&id=456240689&hash=ВАШ_HASH_2',
-        externalUrl: 'https://vkvideo.ru/video-206140174_456240689',
-        title: 'Спектакль - Кто ограбил миссис Рэббит (реж. Е.Апакова)',
-        thumb: `${BASE}gallery/actress2.jpg`,
+        embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239033&hash=e760b2474169b076',
+        externalUrl: 'https://vkvideo.ru/video200003545703_456239033',
+        title: 'Я - Актер. "(Не) Шумите! Поэзия шестидесятников" Всероссийский чтецкий конкурс. Городской этап. Лауреат 2 степени',
+        thumb: `${BASE}gallery/actress1.jpg`,
     },
     {
         id: 3,
-        embedUrl: 'https://vk.ru/video_ext.php?oid=-206140174&id=456240420&hash=ВАШ_HASH_3',
-        externalUrl: 'https://vkvideo.ru/video-206140174_456240420',
-        title: 'Про Рок "По барабану"',
+        embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239027&hash=3efe73606e265176',
+        externalUrl: 'https://vkvideo.ru/video200003545703_456239027',
+        title: 'Про/Рок "По барабану"',
+        thumb: `${BASE}gallery/actress2.jpg`,
+    },
+    {
+        id: 4,
+        embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239029&hash=85452d04ecaf261c',
+        externalUrl: 'https://vkvideo.ru/video200003545703_456239029',
+        title: 'Я актер. Всероссийский конкурс чтецов "Про/Рок" "Смельчак и ветер". Лауреат 3 степени (всероссийский этап)',
         thumb: `${BASE}gallery/actress3.jpg`,
     },
 ]
@@ -75,7 +81,7 @@ export default function VideoTheatre() {
     return (
         <section className="videotheatre-section">
             <div className="container">
-                <h2 className="section-title">Видео по актёрской школе</h2>
+                <h2 className="section-title">Актёрская школа</h2>
 
                 <div className="video-carousel" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
                     <button className="video-nav video-prev" onClick={goPrev} aria-label="Предыдущее видео">{'←'}</button>

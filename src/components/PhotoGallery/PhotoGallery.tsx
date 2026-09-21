@@ -185,7 +185,7 @@ export default function PhotoGallery() {
     return (
         <section className="photogallery-section">
             <div className="container">
-                <h2 className="section-title">Галерея выступлений</h2>
+                <h2 className="section-title">Фотогалерея</h2>
 
                 <div
                     className="photo-carousel"
