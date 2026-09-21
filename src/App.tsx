@@ -32,6 +32,7 @@ function App() {
         }
     }, [menuOpen])
 
+    // ✅ Порядок разделов совпадает с порядком секций ниже
     const navItems = [
         { label: 'Главная', href: '#hero' },
         { label: 'Обо мне', href: '#about' },
@@ -51,31 +52,31 @@ function App() {
             />
 
             <main>
-                <section id="hero" style={{ minHeight: '100vh' }}>
+                <section id="hero">
                     <Hero />
                 </section>
 
-                <section id="about" style={{ padding: '80px 24px', background: '#fff', minHeight: '60vh' }}>
+                <section id="about">
                     <About />
                 </section>
 
-                <section id="video" style={{ padding: '80px 24px', background: '#f8f8ff', minHeight: '60vh' }}>
+                <section id="video">
                     <Video />
                 </section>
 
-                <section id="videotheatre" style={{ padding: '80px 24px', background: '#fff', minHeight: '60vh' }}>
+                <section id="videotheatre">
                     <VideoTheatre />
                 </section>
 
-                <section id="photogallery" style={{ padding: '80px 24px', background: '#fff', minHeight: '60vh' }}>
+                <section id="photogallery">
                     <PhotoGallery />
                 </section>
 
-                <section id="achievements" style={{ padding: '80px 24px', background: '#f8f8ff', minHeight: '60vh' }}>
+                <section id="achievements">
                     <Achievements />
                 </section>
 
-                <section id="contact" style={{ padding: '80px 24px', background: '#fff', minHeight: '60vh' }}>
+                <section id="contact">
                     <Contact />
                 </section>
             </main>
