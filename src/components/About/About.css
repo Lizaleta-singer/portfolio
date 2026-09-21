@@ -100,64 +100,67 @@
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .about-section {
-        padding: 48px 16px;
+        padding: 40px 16px;
     }
 
     .about-layout {
         grid-template-columns: 1fr;
-        gap: 28px;
+        gap: 24px;
     }
 
+    /* Фото НЕ на всю высоту — компактно сверху */
     .about-photo img {
-        height: 320px;
-        object-position: center 25%;
+        height: 380px;
+        object-position: center 30%;
     }
 
     .about-photo-decoration {
-        top: -8px;
-        right: -8px;
+        top: -6px;
+        right: -6px;
         border-width: 2px;
     }
 
     .about-text {
         font-size: 0.95rem;
         line-height: 1.7;
-        padding: 0 4px;
+        padding: 0;
     }
 
     .about-text p + p {
         margin-top: 14px;
     }
 
+    /* Статы — 3 компактных карточки в ряд */
     .about-stats {
         grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
+        gap: 8px;
         margin-top: 24px;
     }
 
     .stat-card {
-        padding: 14px 6px;
+        padding: 12px 4px;
         border-radius: 12px;
     }
 
     .stat-value {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
 
     .stat-label {
-        font-size: 0.7rem;
+        font-size: 0.65rem;
         letter-spacing: 0.5px;
         line-height: 1.2;
+        margin-top: 2px;
     }
 }
 
 @media (max-width: 480px) {
     .about-section {
-        padding: 36px 14px;
+        padding: 32px 14px;
     }
 
     .about-photo img {
-        height: 280px;
+        height: 320px;
     }
 
     .about-text {
@@ -166,33 +169,33 @@
     }
 
     .about-stats {
-        gap: 8px;
+        gap: 6px;
     }
 
     .stat-card {
-        padding: 12px 4px;
+        padding: 10px 2px;
     }
 
     .stat-value {
-        font-size: 1.35rem;
+        font-size: 1.25rem;
     }
 
     .stat-label {
-        font-size: 0.65rem;
+        font-size: 0.6rem;
     }
 }
 
 /* ===== Очень узкие экраны ===== */
 @media (max-width: 360px) {
     .about-photo img {
-        height: 240px;
+        height: 280px;
     }
 
     .stat-value {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 
     .stat-label {
-        font-size: 0.6rem;
+        font-size: 0.55rem;
     }
 }
