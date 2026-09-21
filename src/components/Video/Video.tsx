@@ -16,7 +16,7 @@ const videos: VideoItem[] = [
         id: 1,
         embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239028&hash=0adb4c983b056474',
         externalUrl: 'https://vkvideo.ru/video200003545703_456239028',
-        title: 'Выступление в ТРЦ Акварель "Я обиделась"',
+        title: 'Выступление в ТРЦ «Ворошиловский» "Я обиделась"',
         thumb: `${BASE}gallery/foto3.jpg`,
     },
     {
