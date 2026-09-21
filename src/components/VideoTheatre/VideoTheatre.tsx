@@ -127,7 +127,8 @@ export default function VideoTheatre() {
 
                 <div className="video-dots">
                     {videos.map((_, i) => (
-                        <button key={i}
+                        <button
+                            key={i}
                             className={`video-dot ${current === i ? 'active' : ''}`}
                             onClick={() => setCurrent(i)}
                             aria-label={`Видео ${i + 1}`}
@@ -178,7 +179,9 @@ export default function VideoTheatre() {
                                         rel="noopener noreferrer"
                                         className="video-player-link"
                                     >▶ Смотреть в VK</a>
-                                    <p className="video-player-note">Откроется в приложении VK или в новой вкладке</p>
+                                    <p className="video-player-note">
+                                        Откроется в приложении VK или в новой вкладке
+                                    </p>
                                 </div>
                             </>
                         ) : (
@@ -194,15 +197,6 @@ export default function VideoTheatre() {
                                     className="video-player-iframe"
                                 />
                                 <h4 className="video-player-title">{videos[current].title}</h4>
-                                <div className="video-player-fallback">
-                                    <p className="video-player-note">Не отображается видео?</p>
-                                    <a
-                                        href={videos[current].url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="video-player-link"
-                                    >Открыть видео на сайте VK →</a>
-                                </div>
                             </>
                         )}
 

@@ -3,7 +3,7 @@ import './Video.css'
 
 interface VideoItem {
     id: number
-    url: string         // ссылка на видео VK — используется и для iframe, и для кнопки
+    url: string          // обычная ссылка на VK-видео (vkvideo.ru/...)
     title: string
     thumb: string
 }
@@ -137,7 +137,7 @@ export default function Video() {
                         <button className="video-player-close" onClick={closeVideoFrame} aria-label="Закрыть">{'×'}</button>
 
                         {isMobile ? (
-                            /* ---------- МОБИЛЬНЫЙ: превью + кнопка ---------- */
+                            /* ======== МОБИЛЬНЫЙ ======== */
                             <>
                                 <div className="video-player-preview-wrap">
                                     <img
@@ -158,16 +158,14 @@ export default function Video() {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="video-player-link"
-                                    >
-                                        ▶ Смотреть в VK
-                                    </a>
+                                    >▶ Смотреть в VK</a>
                                     <p className="video-player-note">
                                         Откроется в приложении VK или в новой вкладке
                                     </p>
                                 </div>
                             </>
                         ) : (
-                            /* ---------- ДЕСКТОП: iframe с внешней ссылкой ---------- */
+                            /* ======== ДЕСКТОП — всегда iframe ======== */
                             <>
                                 <iframe
                                     src={videos[current].url}
@@ -180,17 +178,6 @@ export default function Video() {
                                     className="video-player-iframe"
                                 />
                                 <h4 className="video-player-title">{videos[current].title}</h4>
-                                <div className="video-player-fallback">
-                                    <p className="video-player-note">Не отображается видео?</p>
-                                    <a
-                                        href={videos[current].url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="video-player-link"
-                                    >
-                                        Открыть видео на сайте VK →
-                                    </a>
-                                </div>
                             </>
                         )}
 
