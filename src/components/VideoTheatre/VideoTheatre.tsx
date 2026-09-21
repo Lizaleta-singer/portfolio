@@ -3,18 +3,17 @@ import './VideoTheatre.css'
 
 interface VideoItem {
     id: number
-    url: string
+    url: string        // обычная ссылка на страницу видео в VK
     title: string
-    thumb: string   // ← путь к превью-картинке
+    thumb: string
 }
 
-// ✅ BASE подставляется Vite: './' при локальной сборке, '/имя-репо/' на GitHub Pages
 const BASE = import.meta.env.BASE_URL
 
 const videos: VideoItem[] = [
     {
         id: 1,
-        url: 'https://vkvideo.ru/video-206140174_456240715?ysclid=mu9avk2d2p635871168',
+        url: 'https://vkvideo.ru/video-206140174_456240715',
         title: 'Актёрская визитка "Я-Актёр!"',
         thumb: `${BASE}gallery/actress1.jpg`,
     },
@@ -52,11 +51,9 @@ export default function VideoTheatre() {
     const [touchStart, setTouchStart] = useState<number | null>(null)
     const [videoFrameOpen, setVideoFrameOpen] = useState(false)
 
-    // Navigation — click only (no auto-play)
     const goNext = useCallback(() => setCurrent((c) => (c + 1) % total), [total])
     const goPrev = useCallback(() => setCurrent((c) => (c - 1 + total) % total), [total])
 
-    // Touch swipe support
     const handleTouchStart = (e: React.TouchEvent) => {
         setTouchStart(e.touches[0].clientX)
     }
@@ -70,21 +67,19 @@ export default function VideoTheatre() {
         setTouchStart(null)
     }
 
-    // Keyboard navigation
     useEffect(() => {
         const handleKey = (e: KeyboardEvent) => {
             if (e.key === 'ArrowRight') goNext()
             if (e.key === 'ArrowLeft') goPrev()
+            if (e.key === 'Escape') setVideoFrameOpen(false)
         }
         window.addEventListener('keydown', handleKey)
         return () => window.removeEventListener('keydown', handleKey)
     }, [goNext, goPrev])
 
-    // Open / close video frame
     const openVideoFrame = () => setVideoFrameOpen(true)
     const closeVideoFrame = () => setVideoFrameOpen(false)
 
-    /** Универсальный обработчик ошибки загрузки превью */
     const handleThumbError = (e: React.SyntheticEvent<HTMLImageElement>) => {
         const img = e.currentTarget
         if (img.dataset.fallback) return
@@ -102,7 +97,6 @@ export default function VideoTheatre() {
                     onTouchStart={handleTouchStart}
                     onTouchEnd={handleTouchEnd}
                 >
-                    {/* Previous button */}
                     <button
                         className="video-nav video-prev"
                         onClick={goPrev}
@@ -111,17 +105,13 @@ export default function VideoTheatre() {
                         {'←'}
                     </button>
 
-                    {/* Slides */}
                     <div className="video-slides">
                         {videos.map((v, i) => (
                             <div
                                 key={v.id}
                                 className={`video-slide ${current === i ? 'active' : ''}`}
                             >
-                                <div
-                                    className="video-play-area"
-                                    onClick={openVideoFrame}
-                                >
+                                <div className="video-play-area" onClick={openVideoFrame}>
                                     <img
                                         src={v.thumb}
                                         alt={v.title}
@@ -140,7 +130,6 @@ export default function VideoTheatre() {
                         ))}
                     </div>
 
-                    {/* Next button */}
                     <button
                         className="video-nav video-next"
                         onClick={goNext}
@@ -150,7 +139,6 @@ export default function VideoTheatre() {
                     </button>
                 </div>
 
-                {/* Dots indicators */}
                 <div className="video-dots">
                     {videos.map((_, i) => (
                         <button
@@ -162,7 +150,6 @@ export default function VideoTheatre() {
                     ))}
                 </div>
 
-                {/* Progress bar */}
                 <div className="video-progress-bar">
                     {Array.from({ length: total }, (_, i) => (
                         <div
@@ -172,13 +159,11 @@ export default function VideoTheatre() {
                     ))}
                 </div>
 
-                {/* Hint */}
                 <p className="video-hint-text">
                     {'👻'} Листайте нажатием или стрелками
                 </p>
             </div>
 
-            {/* Video Player Frame Overlay */}
             {videoFrameOpen && (
                 <div
                     className="video-player-overlay"
@@ -191,39 +176,41 @@ export default function VideoTheatre() {
                         <button
                             className="video-player-close"
                             onClick={closeVideoFrame}
-                            aria-label="Закрыть видео"
+                            aria-label="Закрыть"
                         >
                             {'×'}
                         </button>
 
-                        {/* Video iframe */}
-                        <iframe
-                            src={videos[current].url}
-                            width="100%"
-                            height="450"
-                            frameBorder="0"
-                            allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-                            allowFullScreen
-                            title={videos[current].title}
-                            className="video-player-iframe"
-                        ></iframe>
+                        <div className="video-player-preview-wrap">
+                            <img
+                                src={videos[current].thumb}
+                                alt={videos[current].title}
+                                className="video-player-preview"
+                                onError={handleThumbError}
+                            />
+                            <div className="video-player-preview-overlay">
+                                <div className="video-play-icon video-play-icon-large">
+                                    {'▶'}
+                                </div>
+                            </div>
+                        </div>
 
-                        {/* Video title below player */}
                         <h4 className="video-player-title">
                             {videos[current].title}
                         </h4>
 
-                        {/* Fallback link if iframe doesn't work */}
                         <div className="video-player-fallback">
-                            <p>Не отображается видео?</p>
                             <a
                                 href={videos[current].url}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="video-player-link"
                             >
-                                Открыть видео на сайте VK →
+                                ▶ Смотреть в VK
                             </a>
+                            <p className="video-player-note">
+                                Откроется в приложении VK или в новой вкладке
+                            </p>
                         </div>
                     </div>
                 </div>

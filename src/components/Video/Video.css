@@ -58,15 +58,18 @@
     opacity: 0;
     transition: opacity 0.6s ease, transform 0.6s ease;
     transform: scale(1.02);
+    pointer-events: none;
 }
 
 .video-slide.active {
     opacity: 1;
     transform: scale(1);
+    pointer-events: auto;
 }
 
 /* Play area (clickable card) */
 .video-play-area {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -77,6 +80,7 @@
     padding: 36px 24px;
     border-radius: 28px;
     overflow: hidden;
+    cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -89,10 +93,10 @@
     object-fit: cover;
     border-radius: 28px;
     z-index: 0;
-    opacity: 0.6;
+    opacity: 0.55;
 }
 
-/* Gradient backgrounds per slide */
+/* Gradient backgrounds per slide (видны под полупрозрачным превью) */
 .video-slide:nth-child(1) .video-play-area { background: linear-gradient(135deg, #FF3385 0%, #FFD700 100%); }
 .video-slide:nth-child(2) .video-play-area { background: linear-gradient(135deg, #9B5DE5 0%, #FF6B6B 100%); }
 .video-slide:nth-child(3) .video-play-area { background: linear-gradient(135deg, #FF6B6B 0%, #FFD700 100%); }
@@ -105,6 +109,8 @@
 
 /* Play icon */
 .video-play-icon {
+    position: relative;
+    z-index: 1;
     width: 90px;
     height: 90px;
     border-radius: 50%;
@@ -126,23 +132,27 @@
 
 /* Title & hint */
 .video-title {
+    position: relative;
+    z-index: 1;
     margin-top: 18px;
     font-family: 'Montserrat', sans-serif;
     font-size: 1.2rem;
     font-weight: 800;
     color: #fff;
-    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.55);
     text-align: center;
     line-height: 1.3;
 }
 
 .video-hint {
+    position: relative;
+    z-index: 1;
     margin-top: 8px;
     font-family: 'Montserrat', sans-serif;
     font-size: 0.85rem;
     font-weight: 600;
     color: rgba(255, 255, 255, 0.95);
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
     text-align: center;
 }
 
@@ -196,7 +206,7 @@
 }
 
 /* ============================================ */
-/*   VIDEO PLAYER OVERLAY (IFRAME)              */
+/*   VIDEO MODAL — PREVIEW + «СМОТРЕТЬ В VK»    */
 /* ============================================ */
 
 .video-player-overlay {
@@ -214,13 +224,13 @@
 
 @keyframes fadeIn {
     from { opacity: 0; }
-    to { opacity: 1; }
+    to   { opacity: 1; }
 }
 
 .video-player-content {
     position: relative;
     width: 100%;
-    max-width: 850px;
+    max-width: 640px;
     background: #fff;
     border-radius: 24px;
     overflow: hidden;
@@ -235,7 +245,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: rgba(155, 93, 229, 0.8);
+    background: rgba(155, 93, 229, 0.9);
     color: #fff;
     border: none;
     font-size: 1.6rem;
@@ -252,16 +262,54 @@
     transform: scale(1.1) rotate(90deg);
 }
 
-/* IFrame embed */
-.video-player-iframe {
+/* Обёртка превью */
+.video-player-preview-wrap {
+    position: relative;
     width: 100%;
-    height: 450px;
-    border: none;
-    display: block;
+    aspect-ratio: 16 / 9;
     background: #0a0514;
+    overflow: hidden;
 }
 
-/* Video title below player */
+.video-player-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.7;
+}
+
+.video-player-preview-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+        to bottom,
+        rgba(10, 5, 20, 0.15) 0%,
+        rgba(10, 5, 20, 0.55) 100%
+    );
+    pointer-events: none;
+}
+
+/* Увеличенная иконка play в модалке */
+.video-play-icon-large {
+    width: 100px;
+    height: 100px;
+    font-size: 3.4rem;
+    background: rgba(255, 255, 255, 0.95);
+    color: #FF3385;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45), 0 0 0 6px rgba(255, 255, 255, 0.35);
+    animation: pulsePlay 2s ease-in-out infinite;
+}
+
+@keyframes pulsePlay {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.08); }
+}
+
+/* Video title below preview */
 .video-player-title {
     padding: 16px 24px;
     font-family: 'Montserrat', sans-serif;
@@ -272,18 +320,12 @@
     border-top: 1px solid #f0e8ff;
 }
 
-/* Fallback (if iframe fails) */
+/* Fallback / CTA */
 .video-player-fallback {
-    padding: 20px 24px;
+    padding: 16px 24px 24px;
     text-align: center;
     background: linear-gradient(135deg, #fff5f7, #f4e8ff);
     border-top: 1px solid #f0e8ff;
-}
-
-.video-player-fallback p {
-    font-size: 0.95rem;
-    color: #6a5a8a;
-    margin-bottom: 12px;
 }
 
 .video-player-link {
@@ -293,13 +335,23 @@
     color: #fff;
     text-decoration: none;
     border-radius: 50px;
-    font-weight: 600;
-    transition: transform 0.3s;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.3px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 8px 24px rgba(155, 93, 229, 0.35);
 }
 
 .video-player-link:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(155, 93, 229, 0.4);
+    box-shadow: 0 12px 36px rgba(155, 93, 229, 0.5);
+}
+
+.video-player-note {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: #8a7aaa;
+    text-align: center;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -319,6 +371,12 @@
         font-size: 2.4rem;
     }
 
+    .video-play-icon-large {
+        width: 80px;
+        height: 80px;
+        font-size: 2.6rem;
+    }
+
     .video-nav {
         width: 38px;
         height: 38px;
@@ -330,17 +388,53 @@
 
     .video-player-content {
         border-radius: 16px;
-        padding: 0;
-    }
-
-    .video-player-iframe {
-        max-height: 50vh;
-        height: 280px;
     }
 
     .video-player-close {
         width: 36px;
         height: 36px;
         font-size: 1.4rem;
+    }
+
+    .video-player-title {
+        font-size: 0.95rem;
+        padding: 14px 18px;
+    }
+
+    .video-player-link {
+        padding: 12px 26px;
+        font-size: 0.95rem;
+    }
+}
+
+/* ===== Очень узкие экраны ===== */
+@media (max-width: 380px) {
+    .video-slides {
+        height: 240px;
+    }
+
+    .video-play-area {
+        min-height: 240px;
+        padding: 22px 12px;
+    }
+
+    .video-title {
+        font-size: 1rem;
+    }
+
+    .video-hint {
+        font-size: 0.75rem;
+    }
+
+    .video-play-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+
+    .video-play-icon-large {
+        width: 66px;
+        height: 66px;
+        font-size: 2.2rem;
     }
 }
