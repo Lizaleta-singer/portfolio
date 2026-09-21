@@ -13,17 +13,23 @@ import './App.css'
 function App() {
     const [menuOpen, setMenuOpen] = useState(false)
 
-    // Close mobile menu on Escape (глобально — на случай, если фокус вне Header)
+    // Закрываем меню по Escape
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') {
-                setMenuOpen(false)
-            }
+            if (e.key === 'Escape') setMenuOpen(false)
         }
         if (menuOpen) {
             document.addEventListener('keydown', handleKeyDown)
         }
         return () => document.removeEventListener('keydown', handleKeyDown)
+    }, [menuOpen])
+
+    // Блокируем скролл body, пока меню открыто
+    useEffect(() => {
+        document.body.style.overflow = menuOpen ? 'hidden' : ''
+        return () => {
+            document.body.style.overflow = ''
+        }
     }, [menuOpen])
 
     const navItems = [
@@ -75,24 +81,6 @@ function App() {
             </main>
 
             <Footer />
-
-            {/* Mobile overlay menu (альтернатива выпадающему списку) */}
-            {menuOpen && (
-                <nav className="nav-overlay">
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        {navItems.map((item) => (
-                            <a
-                                key={item.href}
-                                className="nav-overlay-link"
-                                href={item.href}
-                                onClick={() => setMenuOpen(false)}
-                            >
-                                {item.label}
-                            </a>
-                        ))}
-                    </div>
-                </nav>
-            )}
         </div>
     )
 }
