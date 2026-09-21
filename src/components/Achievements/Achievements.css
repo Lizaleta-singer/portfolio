@@ -1,7 +1,7 @@
 /* ===== ACHIEVEMENTS SECTION - DIPLOMA CAROUSEL ===== */
 
 .achievements-section {
-    padding: 72px 20px;
+    padding: var(--section-padding);
     background: linear-gradient(180deg, #f4e8ff 0%, #fff8e1 50%, #f0eeff 100%);
 }
 

@@ -8,36 +8,58 @@
 }
 
 :root {
-     /* === Palette === */
-      --color-pink: #FF3385;
-      --color-coral: #FF6B6B;
-      --color-purple: #9B5DE5;
-      --color-lavender: #F4E8FE;
-      --color-deep-purple: #4A1A6B;
-      --color-dark: #2D1B4E;
-      --color-light: #FFF8FC;
-      --color-gold: #FFD700;
+    /* === Palette === */
+    --color-pink: #FF3385;
+    --color-coral: #FF6B6B;
+    --color-purple: #9B5DE5;
+    --color-lavender: #F4E8FE;
+    --color-deep-purple: #4A1A6B;
+    --color-dark: #2D1B4E;
+    --color-light: #FFF8FC;
+    --color-gold: #FFD700;
 
-      /* === Typography === */
-     --font-heading: 'Playfair Display', Georgia, serif;
-     --font-body: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+    /* === Typography === */
+    --font-heading: 'Playfair Display', Georgia, serif;
+    --font-body: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
 
-     /* === Spacing === */
-     --section-padding: 80px 24px;
-     --container-max: 1100px;
+    /* === Spacing === */
+    /* Минимальный padding-top — компенсацию шапки делает scroll-padding-top */
+    --section-padding: 20px 24px 80px;
+    --container-max: 1100px;
+}
+
+/* Мобильный — боковые отступы компактнее */
+@media (max-width: 768px) {
+    :root {
+        --section-padding: 20px 16px 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --section-padding: 20px 14px 50px;
+    }
 }
 
 html {
-     scroll-behavior: smooth;
-     font-size: 16px;
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;   /* ✅ единая компенсация фиксированной шапки */
+    font-size: 16px;
+}
+
+/* Мобильный — чуть меньше отступ при якорных переходах */
+@media (max-width: 768px) {
+    html {
+        scroll-padding-top: 120px;
+    }
 }
 
 body {
-     font-family: var(--font-body);
-     color: var(--color-dark);
-     background: var(--color-light);
-     line-height: 1.7;
-     overflow-x: hidden;
+    font-family: var(--font-body);
+    color: var(--color-dark);
+    background: var(--color-light);
+    line-height: 1.7;
+    overflow-x: hidden;
 }
 
 /* ===== Utility ===== */
@@ -66,20 +88,20 @@ body {
 }
 
 .animate-on-scroll.visible {
-     opacity: 1;
-     transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* ===== Fade-in for individual elements ===== */
 @keyframes fadeInUp {
-      from {
-         opacity: 0;
-         transform: translateY(30px);
-     }
-     to {
-         opacity: 1;
-         transform: translateY(0);
-     }
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .animate-on-scroll:nth-child(2) { transition-delay: 0.1s; }
