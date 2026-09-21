@@ -99,39 +99,15 @@ export default function VideoTheatre() {
 
     const handleVideoClick = (index: number) => {
         setCurrent(index)
-        const v = videos[index]
-        const canEmbed = !isMobile && !!v.embedUrl
-
-        if (!canEmbed) {
-            window.open(v.externalUrl, '_blank', 'noopener,noreferrer')
-            return
-        }
         setVideoFrameOpen(true)
     }
 
     const closeVideoFrame = () => setVideoFrameOpen(false)
 
-    const modalNext = () => {
-        for (let i = 1; i <= total; i++) {
-            const idx = (current + i) % total
-            if (videos[idx].embedUrl) {
-                setCurrent(idx)
-                return
-            }
-        }
-        setVideoFrameOpen(false)
-    }
+    const modalNext = () => setCurrent((c) => (c + 1) % total)
+    const modalPrev = () => setCurrent((c) => (c - 1 + total) % total)
 
-    const modalPrev = () => {
-        for (let i = 1; i <= total; i++) {
-            const idx = (current - i + total) % total
-            if (videos[idx].embedUrl) {
-                setCurrent(idx)
-                return
-            }
-        }
-        setVideoFrameOpen(false)
-    }
+    const showIframe = !isMobile && !!videos[current].embedUrl
 
     return (
         <section className="videotheatre-section">
@@ -172,9 +148,7 @@ export default function VideoTheatre() {
                                     <div className="video-play-icon">{'▶'}</div>
                                     <h3 className="video-title">{v.title}</h3>
                                     <span className="video-hint">
-                                        {'🎬'} {v.embedUrl && !isMobile
-                                            ? 'Нажмите для просмотра'
-                                            : 'Нажмите — откроется в VK'}
+                                        {'🎬'} Нажмите для просмотра видео
                                     </span>
                                 </div>
                             </div>
@@ -215,7 +189,7 @@ export default function VideoTheatre() {
                 </p>
             </div>
 
-            {videoFrameOpen && videos[current].embedUrl && (
+            {videoFrameOpen && (
                 <div
                     className="video-player-overlay"
                     onClick={closeVideoFrame}
@@ -240,34 +214,54 @@ export default function VideoTheatre() {
                             {'×'}
                         </button>
 
-                        <iframe
-                            src={videos[current].embedUrl}
-                            width="100%"
-                            height="450"
-                            frameBorder="0"
-                            allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-                            allowFullScreen
-                            title={videos[current].title}
-                            className="video-player-iframe"
-                        />
+                        {showIframe ? (
+                            <iframe
+                                src={videos[current].embedUrl}
+                                width="100%"
+                                height="450"
+                                frameBorder="0"
+                                allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                                allowFullScreen
+                                title={videos[current].title}
+                                className="video-player-iframe"
+                            />
+                        ) : (
+                            <div className="video-player-preview-wrap">
+                                <img
+                                    src={videos[current].thumb}
+                                    alt={videos[current].title}
+                                    className="video-player-preview"
+                                    onError={handleThumbError}
+                                />
+                                <div className="video-player-preview-overlay">
+                                    <div className="video-play-icon video-play-icon-large">
+                                        {'▶'}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
 
                         <h4 className="video-player-title">
                             {videos[current].title}
                         </h4>
 
-                        <div className="video-player-fallback">
-                            <a
-                                href={videos[current].externalUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="video-player-link"
-                            >
-                                ▶ Смотреть в VK
-                            </a>
-                            <p className="video-player-note">
-                                Откроется на сайте VK в новой вкладке
-                            </p>
-                        </div>
+                        {!showIframe && (
+                            <div className="video-player-fallback">
+                                <a
+                                    href={videos[current].externalUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="video-player-link"
+                                >
+                                    ▶ Смотреть в VK
+                                </a>
+                                <p className="video-player-note">
+                                    {isMobile
+                                        ? 'Откроется в приложении VK или в новой вкладке'
+                                        : 'Откроется на сайте VK в новой вкладке'}
+                                </p>
+                            </div>
+                        )}
 
                         <div className="video-modal-counter">
                             {current + 1} / {total}
