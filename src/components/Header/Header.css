@@ -26,13 +26,14 @@
     padding: 0 24px;
 }
 
-/* ===== LOGO - CLEAR ON HERO ===== */
+/* ===== LOGO ===== */
 .header-logo {
     display: flex;
     align-items: center;
     gap: 10px;
     text-decoration: none;
     transition: transform 0.3s;
+    z-index: 1001; /* поверх оверлея */
 }
 
 .header-logo:hover {
@@ -68,7 +69,7 @@
     text-shadow: none;
 }
 
-/* ===== NAV ITEMS - CLEAR ON HERO ===== */
+/* ===== NAV ===== */
 .header-nav {
     display: flex;
     align-items: center;
@@ -111,7 +112,7 @@
     text-shadow: none;
 }
 
-/* ===== MOBILE MENU BUTTON - CLEAR ON HERO ===== */
+/* ===== MOBILE MENU BUTTON ===== */
 .header-menu-btn {
     display: none;
     flex-direction: column;
@@ -126,9 +127,9 @@
     padding: 0;
     border-radius: 8px;
     transition: all 0.3s ease;
+    z-index: 1001; /* поверх оверлея */
 }
 
-/* Убираем синюю рамку фокуса у кнопки-гамбургера */
 .header-menu-btn:focus {
     outline: none;
 }
@@ -153,7 +154,6 @@
     text-shadow: none;
 }
 
-/* Mobile hamburger */
 .menu-line-1 { transform-origin: center; }
 .menu-line-2 { width: 18px; }
 .menu-line-3 { transform-origin: center; }
@@ -170,24 +170,21 @@
         display: flex;
     }
 
-    /* ✅ Меню — фиксированное под шапкой, перекрывает Hero */
     .header-menu {
         position: fixed;
-        top: 76px;              /* высота шапки, уточните при необходимости */
+        top: 76px;
         left: 0;
         right: 0;
-        z-index: 999;           /* ниже .header (1000), но выше Hero */
+        z-index: 999;
 
         flex-direction: column;
         padding: 16px 20px 24px;
         gap: 4px;
 
-        /* ✅ НЕПРОЗРАЧНЫЙ светлый фон — ничего не просвечивает */
         background: #ffffff;
         box-shadow: 0 20px 40px rgba(45, 27, 78, 0.25);
         border-top: 1px solid rgba(155, 93, 229, 0.15);
 
-        /* Плавное появление */
         transform: translateY(-10px);
         opacity: 0;
         pointer-events: none;
@@ -200,15 +197,14 @@
         pointer-events: auto;
     }
 
-    /* ✅ Тёмный текст на светлом фоне — контраст высокий */
     .header-menu li a {
         font-size: 1.1rem;
         font-weight: 600;
-        color: #2d1b4e;              /* ← ключевое исправление */
+        color: #2d1b4e;
         text-align: center;
         padding: 14px 12px;
         border-radius: 12px;
-        text-shadow: none;           /* убираем тень от белого текста */
+        text-shadow: none;
     }
 
     .header-menu li a:hover,
@@ -217,7 +213,6 @@
         background: rgba(155, 93, 229, 0.08);
     }
 
-    /* Разделители между пунктами */
     .header-menu li + li {
         border-top: 1px solid rgba(155, 93, 229, 0.08);
     }
