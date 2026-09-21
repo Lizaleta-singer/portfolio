@@ -1,13 +1,16 @@
 {
   "name": "portfolio",
-  "homepage": "https://lizaleta.github.io/portfolio",
+  "homepage": "https://lizaleta-singer.github.io/portfolio",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build:ghpages": "tsc && vite build --mode ghpages",
+    "preview": "vite preview",
+    "predeploy": "yarn build:ghpages",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "^18.3.1",

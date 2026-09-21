@@ -6,6 +6,6 @@ export default defineConfig(({ mode }) => ({
     // mode === 'ghpages'  → сборка для GitHub Pages (абсолютный base)
     // всё остальное       → относительный base (Live Server, preview, Vercel, Netlify)
     base: mode === 'ghpages'
-        ? '/lizaleta/'
+        ? '/portfolio/'
         : './',
 }))
