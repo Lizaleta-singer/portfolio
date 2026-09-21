@@ -51,7 +51,6 @@
     height: 340px;
 }
 
-/* Individual slide */
 .video-slide {
     position: absolute;
     inset: 0;
@@ -67,7 +66,6 @@
     pointer-events: auto;
 }
 
-/* Play area (clickable card) */
 .video-play-area {
     position: relative;
     display: flex;
@@ -84,7 +82,6 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Thumbnail image */
 .video-slide-preview {
     position: absolute;
     inset: 0;
@@ -96,7 +93,6 @@
     opacity: 0.55;
 }
 
-/* Gradient backgrounds per slide (видны под полупрозрачным превью) */
 .video-slide:nth-child(1) .video-play-area { background: linear-gradient(135deg, #FF3385 0%, #FFD700 100%); }
 .video-slide:nth-child(2) .video-play-area { background: linear-gradient(135deg, #9B5DE5 0%, #FF6B6B 100%); }
 .video-slide:nth-child(3) .video-play-area { background: linear-gradient(135deg, #FF6B6B 0%, #FFD700 100%); }
@@ -107,7 +103,6 @@
     box-shadow: 0 16px 50px rgba(0, 0, 0, 0.3);
 }
 
-/* Play icon */
 .video-play-icon {
     position: relative;
     z-index: 1;
@@ -130,7 +125,6 @@
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), 0 0 0 6px rgba(255, 255, 255, 0.9);
 }
 
-/* Title & hint */
 .video-title {
     position: relative;
     z-index: 1;
@@ -156,7 +150,7 @@
     text-align: center;
 }
 
-/* ===== DOTS INDICATORS ===== */
+/* ===== DOTS ===== */
 .video-dots {
     display: flex;
     justify-content: center;
@@ -197,7 +191,6 @@
     background: #9B5DE5;
 }
 
-/* ===== HINT TEXT ===== */
 .video-hint-text {
     text-align: center;
     font-size: 0.8rem;
@@ -206,7 +199,7 @@
 }
 
 /* ============================================ */
-/*   VIDEO MODAL — PREVIEW + IFRAME + CTA       */
+/*   VIDEO MODAL — IFRAME + CTA + ARROWS        */
 /* ============================================ */
 
 .video-player-overlay {
@@ -237,7 +230,6 @@
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
-/* Close button */
 .video-player-close {
     position: absolute;
     top: 12px;
@@ -262,7 +254,7 @@
     transform: scale(1.1) rotate(90deg);
 }
 
-/* ===== Встроенный VK-плеер (iframe) ===== */
+/* ===== IFRAME ===== */
 .video-player-iframe {
     width: 100%;
     height: 450px;
@@ -271,54 +263,7 @@
     background: #0a0514;
 }
 
-/* ===== Обёртка превью (fallback) ===== */
-.video-player-preview-wrap {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background: #0a0514;
-    overflow: hidden;
-}
-
-.video-player-preview {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    opacity: 0.7;
-}
-
-.video-player-preview-overlay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(
-        to bottom,
-        rgba(10, 5, 20, 0.15) 0%,
-        rgba(10, 5, 20, 0.55) 100%
-    );
-    pointer-events: none;
-}
-
-/* Увеличенная иконка play в модалке */
-.video-play-icon-large {
-    width: 100px;
-    height: 100px;
-    font-size: 3.4rem;
-    background: rgba(255, 255, 255, 0.95);
-    color: #FF3385;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45), 0 0 0 6px rgba(255, 255, 255, 0.35);
-    animation: pulsePlay 2s ease-in-out infinite;
-}
-
-@keyframes pulsePlay {
-    0%, 100% { transform: scale(1); }
-    50%      { transform: scale(1.08); }
-}
-
-/* Video title below player/preview */
+/* ===== Заголовок и fallback ===== */
 .video-player-title {
     padding: 16px 24px;
     font-family: 'Montserrat', sans-serif;
@@ -329,9 +274,8 @@
     border-top: 1px solid #f0e8ff;
 }
 
-/* Fallback / CTA */
 .video-player-fallback {
-    padding: 16px 24px 24px;
+    padding: 16px 24px 20px;
     text-align: center;
     background: linear-gradient(135deg, #fff5f7, #f4e8ff);
     border-top: 1px solid #f0e8ff;
@@ -363,6 +307,59 @@
     text-align: center;
 }
 
+/* ===== Стрелки в модалке ===== */
+.video-modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(155, 93, 229, 0.5);
+    color: #9B5DE5;
+    font-size: 1.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.video-modal-nav:hover {
+    background: #9B5DE5;
+    color: #fff;
+    border-color: #9B5DE5;
+    transform: translateY(-50%) scale(1.12);
+    box-shadow: 0 6px 30px rgba(155, 93, 229, 0.5);
+}
+
+.video-modal-nav:active {
+    transform: translateY(-50%) scale(1.02);
+}
+
+.video-modal-prev { left: 24px; }
+.video-modal-next { right: 24px; }
+
+.video-modal-counter {
+    padding: 10px 16px 14px;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #9B5DE5;
+    letter-spacing: 1px;
+    border-top: 1px solid #f0e8ff;
+}
+
+.video-modal-hint {
+    color: #8a7aaa;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .video-slides {
@@ -378,12 +375,6 @@
         width: 70px;
         height: 70px;
         font-size: 2.4rem;
-    }
-
-    .video-play-icon-large {
-        width: 80px;
-        height: 80px;
-        font-size: 2.6rem;
     }
 
     .video-nav {
@@ -406,7 +397,7 @@
     }
 
     .video-player-iframe {
-        height: 240px;   /* компактнее на мобильном, если iframe всё-таки показывается */
+        height: 240px;
     }
 
     .video-player-title {
@@ -418,9 +409,21 @@
         padding: 12px 26px;
         font-size: 0.95rem;
     }
+
+    .video-modal-nav {
+        width: 44px;
+        height: 44px;
+        font-size: 1.4rem;
+    }
+
+    .video-modal-prev { left: 8px; }
+    .video-modal-next { right: 8px; }
+
+    .video-modal-counter {
+        font-size: 0.8rem;
+    }
 }
 
-/* ===== Очень узкие экраны ===== */
 @media (max-width: 380px) {
     .video-slides {
         height: 240px;
@@ -445,13 +448,16 @@
         font-size: 2rem;
     }
 
-    .video-play-icon-large {
-        width: 66px;
-        height: 66px;
-        font-size: 2.2rem;
-    }
-
     .video-player-iframe {
         height: 200px;
     }
+
+    .video-modal-nav {
+        width: 38px;
+        height: 38px;
+        font-size: 1.2rem;
+    }
+
+    .video-modal-prev { left: 4px; }
+    .video-modal-next { right: 4px; }
 }

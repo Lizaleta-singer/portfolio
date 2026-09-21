@@ -14,8 +14,7 @@ const BASE = import.meta.env.BASE_URL
 const videos: VideoItem[] = [
     {
         id: 1,
-        // Если есть рабочий embed для актёрской визитки — впишите сюда
-        // embedUrl: 'https://vk.ru/video_ext.php?oid=-206140174&id=456240715&hash=ВАШ_HASH',
+        // embedUrl: '...',  ← добавьте, если получите рабочий hash
         externalUrl: 'https://vkvideo.ru/video-206140174_456240715',
         title: 'Актёрская визитка "Я-Актёр!"',
         thumb: `${BASE}gallery/actress1.jpg`,
@@ -91,9 +90,6 @@ export default function VideoTheatre() {
         return () => window.removeEventListener('keydown', handleKey)
     }, [goNext, goPrev])
 
-    const openVideoFrame = () => setVideoFrameOpen(true)
-    const closeVideoFrame = () => setVideoFrameOpen(false)
-
     const handleThumbError = (e: React.SyntheticEvent<HTMLImageElement>) => {
         const img = e.currentTarget
         if (img.dataset.fallback) return
@@ -101,7 +97,41 @@ export default function VideoTheatre() {
         img.src = FALLBACK_SVG
     }
 
-    const canEmbed = !isMobile && !!videos[current].embedUrl
+    const handleVideoClick = (index: number) => {
+        setCurrent(index)
+        const v = videos[index]
+        const canEmbed = !isMobile && !!v.embedUrl
+
+        if (!canEmbed) {
+            window.open(v.externalUrl, '_blank', 'noopener,noreferrer')
+            return
+        }
+        setVideoFrameOpen(true)
+    }
+
+    const closeVideoFrame = () => setVideoFrameOpen(false)
+
+    const modalNext = () => {
+        for (let i = 1; i <= total; i++) {
+            const idx = (current + i) % total
+            if (videos[idx].embedUrl) {
+                setCurrent(idx)
+                return
+            }
+        }
+        setVideoFrameOpen(false)
+    }
+
+    const modalPrev = () => {
+        for (let i = 1; i <= total; i++) {
+            const idx = (current - i + total) % total
+            if (videos[idx].embedUrl) {
+                setCurrent(idx)
+                return
+            }
+        }
+        setVideoFrameOpen(false)
+    }
 
     return (
         <section className="videotheatre-section">
@@ -127,7 +157,10 @@ export default function VideoTheatre() {
                                 key={v.id}
                                 className={`video-slide ${current === i ? 'active' : ''}`}
                             >
-                                <div className="video-play-area" onClick={openVideoFrame}>
+                                <div
+                                    className="video-play-area"
+                                    onClick={() => handleVideoClick(i)}
+                                >
                                     <img
                                         src={v.thumb}
                                         alt={v.title}
@@ -139,7 +172,9 @@ export default function VideoTheatre() {
                                     <div className="video-play-icon">{'▶'}</div>
                                     <h3 className="video-title">{v.title}</h3>
                                     <span className="video-hint">
-                                        {'🎬'} Нажмите для просмотра видео
+                                        {'🎬'} {v.embedUrl && !isMobile
+                                            ? 'Нажмите для просмотра'
+                                            : 'Нажмите — откроется в VK'}
                                     </span>
                                 </div>
                             </div>
@@ -180,11 +215,19 @@ export default function VideoTheatre() {
                 </p>
             </div>
 
-            {videoFrameOpen && (
+            {videoFrameOpen && videos[current].embedUrl && (
                 <div
                     className="video-player-overlay"
                     onClick={closeVideoFrame}
                 >
+                    <button
+                        className="video-modal-nav video-modal-prev"
+                        onClick={(e) => { e.stopPropagation(); modalPrev() }}
+                        aria-label="Предыдущее видео"
+                    >
+                        {'←'}
+                    </button>
+
                     <div
                         className="video-player-content"
                         onClick={(e) => e.stopPropagation()}
@@ -197,55 +240,50 @@ export default function VideoTheatre() {
                             {'×'}
                         </button>
 
-                        {canEmbed ? (
-                            <iframe
-                                src={videos[current].embedUrl}
-                                width="100%"
-                                height="450"
-                                frameBorder="0"
-                                allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-                                allowFullScreen
-                                title={videos[current].title}
-                                className="video-player-iframe"
-                            />
-                        ) : (
-                            <div className="video-player-preview-wrap">
-                                <img
-                                    src={videos[current].thumb}
-                                    alt={videos[current].title}
-                                    className="video-player-preview"
-                                    onError={handleThumbError}
-                                />
-                                <div className="video-player-preview-overlay">
-                                    <div className="video-play-icon video-play-icon-large">
-                                        {'▶'}
-                                    </div>
-                                </div>
-                            </div>
-                        )}
+                        <iframe
+                            src={videos[current].embedUrl}
+                            width="100%"
+                            height="450"
+                            frameBorder="0"
+                            allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                            allowFullScreen
+                            title={videos[current].title}
+                            className="video-player-iframe"
+                        />
 
                         <h4 className="video-player-title">
                             {videos[current].title}
                         </h4>
 
-                        {!canEmbed && (
-                            <div className="video-player-fallback">
-                                <a
-                                    href={videos[current].externalUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="video-player-link"
-                                >
-                                    ▶ Смотреть в VK
-                                </a>
-                                <p className="video-player-note">
-                                    {isMobile
-                                        ? 'Откроется в приложении VK или в новой вкладке'
-                                        : 'Откроется на сайте VK в новой вкладке'}
-                                </p>
-                            </div>
-                        )}
+                        <div className="video-player-fallback">
+                            <a
+                                href={videos[current].externalUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="video-player-link"
+                            >
+                                ▶ Смотреть в VK
+                            </a>
+                            <p className="video-player-note">
+                                Откроется на сайте VK в новой вкладке
+                            </p>
+                        </div>
+
+                        <div className="video-modal-counter">
+                            {current + 1} / {total}
+                            <span className="video-modal-hint">
+                                {' '}· Листайте стрелками ← →
+                            </span>
+                        </div>
                     </div>
+
+                    <button
+                        className="video-modal-nav video-modal-next"
+                        onClick={(e) => { e.stopPropagation(); modalNext() }}
+                        aria-label="Следующее видео"
+                    >
+                        {'→'}
+                    </button>
                 </div>
             )}
         </section>
