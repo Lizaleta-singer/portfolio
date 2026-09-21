@@ -1,0 +1,368 @@
+/* ===== ACHIEVEMENTS SECTION - DIPLOMA CAROUSEL ===== */
+
+.achievements-section {
+    padding: 72px 20px;
+    background: linear-gradient(180deg, #f4e8ff 0%, #fff8e1 50%, #f0eeff 100%);
+}
+
+/* ===== CAROUSEL CONTAINER (golden frame) ===== */
+
+.diploma-carousel {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 24px;
+    box-shadow: 0 12px 50px rgba(255, 215, 0, 0.3), inset 0 0 60px rgba(255, 215, 0, 0.1);
+}
+
+/* Navigation arrows */
+
+.diploma-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(255, 215, 0, 0.5);
+    color: #FFD700;
+    font-size: 1.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.diploma-nav:hover {
+    background: #fff;
+    border-color: #FFD700;
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.diploma-prev { left: 16px; }
+.diploma-next { right: 16px; }
+
+/* ===== SLIDES CONTAINER ===== */
+
+.diploma-slides {
+    position: relative;
+    width: 100%;
+    height: 580px;
+}
+
+/* Individual slide */
+
+.diploma-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;            /* ← скрыт полностью */
+    pointer-events: none;          /* ← НЕ ловит клики */
+    transition: opacity 0.6s ease, transform 0.6s ease, visibility 0s linear 0.6s;
+    transform: scale(1.02);
+    z-index: 0;
+}
+
+.diploma-slide.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;          /* ← кликабелен только активный */
+    transform: scale(1);
+    z-index: 1;
+    transition: opacity 0.6s ease, transform 0.6s ease, visibility 0s;
+}
+
+/* Diploma photo */
+
+.diploma-slide img {
+    width: 100%;
+    height: 480px;
+    object-fit: cover;
+    border-radius: 24px;
+    border: 4px solid #FFD700;
+}
+
+/* Info overlay on image */
+
+.diploma-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 80px 24px 32px;
+    background: linear-gradient(transparent, rgba(45, 27, 78, 0.9));
+    color: #fff;
+    border-radius: 0 0 24px 24px;
+}
+
+.diploma-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.diploma-badge.music {
+    color: #FF3385;
+    background: rgba(255, 51, 133, 0.15);
+}
+
+.diploma-badge.theatre {
+    color: #9B5DE5;
+    background: rgba(155, 93, 229, 0.15);
+}
+
+.diploma-title {
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.4;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* ===== DOTS INDICATORS ===== */
+
+.diploma-dots {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px;
+    background: linear-gradient(135deg, #fff8e1, #f4e8ff);
+}
+
+.diploma-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #FFD700;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.diploma-dot.active {
+    background: #FFD700;
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+/* ===== PROGRESS BAR ===== */
+
+.diploma-progress-bar {
+    display: flex;
+    height: 4px;
+    background: linear-gradient(90deg, #FFD700, #FF3385);
+}
+
+.diploma-progress-segment {
+    flex: 1;
+    transition: opacity 0.4s ease;
+}
+
+.diploma-progress-segment.filled {
+    background: #fff;
+    box-shadow: 0 0 6px rgba(255, 215, 0, 0.8);
+}
+
+/* ===== HINT TEXT ===== */
+
+.diploma-hint-text {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #8a7aaa;
+    margin-top: 12px;
+}
+
+/* ============================================ */
+/*   DIPLOMA MODAL - FULL SIZE GALLERY VIEW     */
+/* ============================================ */
+
+.diploma-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(10, 5, 20, 0.93);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Modal body - large container, NO overflow cropping */
+
+.diploma-modal-body {
+    position: relative;
+    max-width: 90vw;
+    max-height: 85vh;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Full size diploma image - fits entirely without cropping */
+
+.diploma-modal-img {
+    width: auto;
+    max-width: 85vw;
+    height: auto;
+    max-height: 75vh;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Navigation arrows inside modal */
+
+.diploma-modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(255, 215, 0, 0.6);
+    color: #333;
+    font-size: 1.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    transition: all 0.3s ease;
+}
+
+.diploma-modal-nav:hover {
+    background: #FFD700;
+    color: #fff;
+    border-color: #FFD700;
+    transform: translateY(-50%) scale(1.15);
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.5);
+}
+
+.diploma-modal-nav:focus,
+.diploma-modal-close:focus {
+    outline: none;
+}
+
+.diploma-modal-prev { left: 24px; }
+.diploma-modal-next { right: 24px; }
+
+/* Close button */
+
+.diploma-modal-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid #FFD700;
+    color: var(--color-dark);
+    font-size: 2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 101;
+    transition: all 0.3s ease;
+}
+
+.diploma-modal-close:hover {
+    background: #FFD700;
+    color: #fff;
+    transform: scale(1.15) rotate(90deg);
+}
+
+/* Modal info area */
+
+.diploma-modal-info {
+    padding: 24px 32px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.diploma-modal-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-dark);
+    line-height: 1.5;
+    margin-top: 12px;
+}
+
+/* Counter */
+
+.diploma-modal-counter {
+    font-size: 0.85rem;
+    color: #9B5DE5;
+    font-weight: 600;
+    margin-top: 8px;
+    letter-spacing: 2px;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+    .diploma-slides {
+        height: 420px;
+    }
+
+    .diploma-slide img {
+        height: 350px;
+    }
+
+    .diploma-modal-body {
+        max-width: 95vw;
+        border-radius: 16px;
+    }
+
+    .diploma-modal-img {
+        max-width: 92vw;
+        max-height: 65vh;
+    }
+
+    .diploma-modal-nav {
+        width: 48px;
+        height: 48px;
+        font-size: 1.4rem;
+    }
+
+    .diploma-modal-prev { left: 8px; }
+    .diploma-modal-next { right: 8px; }
+
+    .diploma-modal-close {
+        top: -16px;
+        right: -16px;
+        width: 40px;
+        height: 40px;
+        font-size: 1.6rem;
+    }
+
+    .diploma-modal-info { padding: 16px; }
+    .diploma-modal-title { font-size: 1.1rem; }
+}

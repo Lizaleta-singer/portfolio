@@ -1,0 +1,191 @@
+/* ===== HERO SECTION - PHOTO FULL SCREEN + GRADIENT TEXT OVERLAY ===== */
+
+.hero {
+    position: relative;
+     width: 100%;
+         min-height: 100vh;
+              overflow: hidden;
+}
+
+/* Photo as full-screen background - starts from top accounting for header */
+.hero-photo-wrapper {
+     position: absolute;
+          top: -40px;
+               left: 0;
+                    width: 100%;
+                         height: calc(100vh + 40px);
+                              object-fit: cover;
+                                   z-index: 1;
+}
+
+/* Gradient overlay - wide transition from photo into text area */
+.hero-gradient {
+     position: absolute;
+          top: -40px;
+               left: 0;
+                    width: 100%;
+                         height: calc(100vh + 40px);
+                              background: linear-gradient(to right, rgba(45, 27, 78, 0.95) 0%, rgba(45, 27, 78, 0.65) 20%, rgba(155, 93, 229, 0.35) 45%, rgba(255, 51, 133, 0.15) 65%, transparent 85%);
+                                   z-index: 2;
+}
+
+/* Floating particles - over gradient, under content */
+.hero-particles {
+     position: absolute;
+          top: 0;
+               left: 0;
+                    width: 100%;
+                         height: 100%;
+                              overflow: hidden;
+                                   z-index: 3;
+}
+
+.particle {
+     position: absolute;
+          color: rgba(255, 255, 255, 0.7);
+               animation: sparkle 4s ease-in-out infinite;
+                    font-size: 1rem;
+}
+
+/* Content - centered in vertical space, left-aligned in gradient zone */
+.hero-content {
+     position: absolute;
+          top: 50vh;
+               left: 10%;
+                    right: 20%;
+                         transform: translateY(-50%);
+                              z-index: 4;
+                                   max-width: 600px;
+}
+
+/* Name - letter by letter reveal */
+.hero-name {
+     font-family: var(--font-heading);
+          font-size: clamp(2.2rem, 5.5vw, 4rem);
+               font-weight: 700;
+                    color: #fff;
+                         text-shadow: 0 2px 30px rgba(0, 0, 0, 0.5), 0 0 60px rgba(155, 93, 229, 0.3);
+                              line-height: 1.15;
+                                   margin-bottom: 16px;
+}
+
+/* Subtitle */
+.hero-subtitle {
+     font-family: var(--font-body);
+          font-size: clamp(0.8rem, 2vw, 1.1rem);
+               color: rgba(255, 255, 255, 0.9);
+                    letter-spacing: 3px;
+                         text-transform: uppercase;
+                              margin-bottom: 20px;
+}
+
+/* Description */
+.hero-description {
+     font-size: 1rem;
+          color: rgba(255, 255, 255, 0.85);
+               max-width: 460px;
+                    line-height: 1.8;
+                              margin-bottom: 36px;
+}
+
+/* CTA Buttons */
+.hero-cta {
+     display: inline-block;
+          padding: 14px 28px;
+               border-radius: 50px;
+                    font-family: var(--font-body);
+                         font-weight: 600;
+                              font-size: 0.95rem;
+                                   text-decoration: none;
+                                        transition: all 0.3s ease;
+                                             margin: 8px;
+}
+
+.hero-cta-primary {
+     background: #fff;
+          color: #FF3385;
+}
+
+.hero-cta-primary:hover {
+     background: var(--color-lavender);
+          transform: translateY(-2px);
+               box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.hero-cta-secondary {
+     border: 2px solid rgba(255, 255, 255, 0.6);
+          color: #fff;
+}
+
+.hero-cta-secondary:hover {
+     background: rgba(255, 255, 255, 0.15);
+          border-color: #fff;
+               transform: translateY(-2px);
+}
+
+/* Scroll indicator */
+.hero-scroll {
+     position: absolute;
+          bottom: 40px;
+               left: 50%;
+                    transform: translateX(-50%);
+                         z-index: 4;
+                              color: rgba(255, 255, 255, 0.8);
+                                   font-size: 0.85rem;
+                                        display: flex;
+                                             flex-direction: column;
+                                                  align-items: center;
+                                                       gap: 4px;
+}
+
+.scroll-arrow {
+     animation: pulseArrow 1.5s ease-in-out infinite;
+          font-size: 1.5rem;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes sparkle {
+       0%, 100% {
+         opacity: 0;
+              transform: scale(0) rotate(0deg);
+                      }
+                    50% {
+                         opacity: 1;
+                              transform: scale(1) rotate(180deg);
+                                      }
+                                             }
+
+@keyframes pulseArrow {
+          0%, 100% {
+             transform: translateY(0);
+                  opacity: 1;
+                            }
+                      50% {
+                         transform: translateY(12px);
+                              opacity: 0.6;
+                                      }
+                                       }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+     .hero-gradient {
+          background: linear-gradient(to bottom, rgba(45, 27, 78, 0.92) 0%, rgba(45, 27, 78, 0.55) 50%, transparent 100%);
+                 }
+
+     .hero-content {
+         left: 6%;
+              top: 30%;
+                   transform: translateY(-50%);
+                        max-width: 92vw;
+                                 }
+
+     .hero-photo-wrapper {
+          height: 100vh;
+               width: 100%;
+                    object-position: center top;
+                             }
+
+                               .hero-scroll {
+                                 bottom: 24px;
+                                          }
+                                         }
