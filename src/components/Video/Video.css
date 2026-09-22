@@ -14,7 +14,7 @@
     box-shadow: 0 12px 50px rgba(155, 93, 229, 0.2);
 }
 
-/* Navigation arrows (карусель) */
+/* ===== Navigation arrows (карусель) ===== */
 .video-nav {
     position: absolute;
     top: 50%;
@@ -32,6 +32,7 @@
     justify-content: center;
     z-index: 10;
     transition: all 0.3s ease;
+    padding-bottom: 4px;            /* ✅ вертикальная компенсация ← → */
 }
 
 .video-nav:hover {
@@ -41,8 +42,15 @@
     transform: translateY(-50%) scale(1.1);
 }
 
-.video-prev { left: 16px; }
-.video-next { right: 16px; }
+.video-prev {
+    left: 16px;
+    padding-right: 3px;             /* ✅ горизонтальная компенсация ← */
+}
+
+.video-next {
+    right: 16px;
+    padding-left: 3px;              /* ✅ горизонтальная компенсация → */
+}
 
 /* ===== SLIDES CONTAINER ===== */
 .video-slides {
@@ -107,7 +115,7 @@
 }
 
 /* =================================================== */
-/* ✅ PLAY ICON — правый НИЖНИЙ угол, ▶ отцентрирован   */
+/* ✅ PLAY ICON — правый нижний угол, ▶ отцентрирован  */
 /* =================================================== */
 .video-play-icon {
     position: absolute;
@@ -127,7 +135,7 @@
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 0 3px rgba(255, 255, 255, 0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-    padding-left: 4px;          /* ✅ центрирует ▶ внутри круга */
+    padding-left: 4px;              /* ✅ центрирует ▶ внутри круга */
 }
 
 .video-play-area:hover .video-play-icon {
@@ -355,6 +363,7 @@
     z-index: 100;
     transition: all 0.3s ease;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    padding-bottom: 5px;            /* ✅ компенсация ← → в модалке */
 }
 
 .video-modal-nav:hover {
@@ -369,8 +378,15 @@
     transform: translateY(-50%) scale(1.02);
 }
 
-.video-modal-prev { left: 24px; }
-.video-modal-next { right: 24px; }
+.video-modal-prev {
+    left: 24px;
+    padding-right: 3px;
+}
+
+.video-modal-next {
+    right: 24px;
+    padding-left: 3px;
+}
 
 /* Счётчик под видео */
 .video-modal-counter {
@@ -423,10 +439,18 @@
         width: 38px;
         height: 38px;
         font-size: 1.1rem;
+        padding-bottom: 3px;
     }
 
-    .video-prev { left: 8px; }
-    .video-next { right: 8px; }
+    .video-prev {
+        left: 8px;
+        padding-right: 2px;
+    }
+
+    .video-next {
+        right: 8px;
+        padding-left: 2px;
+    }
 
     .video-player-content {
         border-radius: 16px;
@@ -452,10 +476,18 @@
         width: 44px;
         height: 44px;
         font-size: 1.4rem;
+        padding-bottom: 4px;
     }
 
-    .video-modal-prev { left: 8px; }
-    .video-modal-next { right: 8px; }
+    .video-modal-prev {
+        left: 8px;
+        padding-right: 2px;
+    }
+
+    .video-modal-next {
+        right: 8px;
+        padding-left: 2px;
+    }
 
     .video-modal-counter {
         font-size: 0.8rem;
@@ -491,12 +523,37 @@
         padding-left: 3px;
     }
 
+    .video-nav {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+        padding-bottom: 2px;
+    }
+
+    .video-prev {
+        left: 6px;
+        padding-right: 2px;
+    }
+
+    .video-next {
+        right: 6px;
+        padding-left: 2px;
+    }
+
     .video-modal-nav {
         width: 38px;
         height: 38px;
         font-size: 1.2rem;
+        padding-bottom: 3px;
     }
 
-    .video-modal-prev { left: 4px; }
-    .video-modal-next { right: 4px; }
+    .video-modal-prev {
+        left: 4px;
+        padding-right: 2px;
+    }
+
+    .video-modal-next {
+        right: 4px;
+        padding-left: 2px;
+    }
 }
