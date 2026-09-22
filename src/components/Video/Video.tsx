@@ -17,14 +17,14 @@ const videos: VideoItem[] = [
         embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239028&hash=0adb4c983b056474',
         externalUrl: 'https://vkvideo.ru/video200003545703_456239028',
         title: 'Выступление в ТРЦ «Ворошиловский» "Я обиделась"',
-        thumb: `${BASE}gallery/foto3.jpg`,
+        thumb: `${BASE}live/live01.png`,
     },
     {
         id: 2,
         embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239024&hash=c78387867f2b0f92',
         externalUrl: 'https://vkvideo.ru/video200003545703_456239028',
         title: 'Выступление на последнем звонке Гимназия №2 "Сказочный билет"',
-        thumb: `${BASE}gallery/foto1.jpg`,
+        thumb: `${BASE}gallery/foto3.jpg`,
     },
     {
         id: 3,
@@ -38,14 +38,14 @@ const videos: VideoItem[] = [
         embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239030&hash=907c6967c50f2886',
         externalUrl: 'https://vkvideo.ru/video200003545703_456239030',
         title: 'Москва. Всероссийский конкурс TOP MUSIC Финал. Лауреат 1 степени (5 лет) "Мир вам, люди!"',
-        thumb: `${BASE}gallery/foto2.jpg`,
+        thumb: `${BASE}live/live04.png`,
     },
     {
         id: 5,
         embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239031&hash=460b0c5114938c1c',
         externalUrl: 'https://vkvideo.ru/video200003545703_456239031',
         title: 'Москва. Всероссийский конкурс TOP MUSIC Финал. Лауреат 1 степени (5 лет) "Что такое лужа"',
-        thumb: `${BASE}gallery/foto2.jpg`,
+        thumb: `${BASE}live/live05.png`,
     },
 ]
 

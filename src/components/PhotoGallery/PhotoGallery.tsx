@@ -17,29 +17,29 @@ const BASE = import.meta.env.BASE_URL
 const photosRaw: PhotoItem[] = [
     {
         id: 1,
-        src: `${BASE}gallery/foto2.jpg`,
-        caption: `Выступление в Мармелад "Росиночка Россия"`,
+        src: `${BASE}about.jpg`,
+        caption: ``,
         alt: 'Мармелад',
         category: 'music',
     },
     {
         id: 2,
-        src: `${BASE}gallery/foto1.jpg`,
-        caption: 'Выступление в Мармелад "Росиночка Россия"',
+        src: `${BASE}gallery/foto3.jpg`,
+        caption: '',
         alt: 'мармелад',
         category: 'music',
     },
     {
         id: 3,
-        src: `${BASE}gallery/foto3.jpg`,
-        caption: 'Выступление на набережной',
+        src: `${BASE}gallery/foto1.jpg`,
+        caption: '',
         alt: 'Набережная Волгограда',
         category: 'music',
     },
     {
         id: 4,
         src: `${BASE}gallery/actress1.jpg`,
-        caption: 'Портрет в полный рост сцена',
+        caption: '',
         alt: 'Hair Boom',
         category: 'theatre',
     },
@@ -48,7 +48,7 @@ const photosRaw: PhotoItem[] = [
         // ⚠️ ЗАМЕНИТЕ на прямую ссылку VK (sun9-*.userapi.com/...jpg)
         // или положите файл в public/gallery/ и укажите '/gallery/theatre1.jpg'
         src: `${BASE}gallery/actress2.jpg`,
-        caption: 'Готовность к выходу на сцену',
+        caption: '',
         alt: 'Перед выходом на сцену',
         category: 'theatre',
     },
@@ -56,7 +56,7 @@ const photosRaw: PhotoItem[] = [
         id: 6,
         // ⚠️ ЗАМЕНИТЕ на прямую ссылку VK или локальный файл
         src: `${BASE}gallery/actress3.jpg`,
-        caption: 'Выступление в школьном спектакле',
+        caption: '',
         alt: 'Школьный спектакль',
         category: 'theatre',
     },

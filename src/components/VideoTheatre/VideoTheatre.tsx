@@ -17,28 +17,28 @@ const videos: VideoItem[] = [
         embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239026&hash=7b74ef99fc09f696',
         externalUrl: 'https://vkvideo.ru/video200003545703_456239026',
         title: 'Актёрская видеовизитка',
-        thumb: `${BASE}gallery/actress1.jpg`,
+        thumb: `${BASE}actress/actress01.png`,
     },
     {
         id: 2,
         embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239033&hash=e760b2474169b076',
         externalUrl: 'https://vkvideo.ru/video200003545703_456239033',
         title: 'Я - Актер. "(Не) Шумите! Поэзия шестидесятников" Всероссийский чтецкий конкурс. Городской этап. Лауреат 2 степени',
-        thumb: `${BASE}gallery/actress1.jpg`,
+        thumb: `${BASE}actress/actress02.png`,
     },
     {
         id: 3,
         embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239027&hash=3efe73606e265176',
         externalUrl: 'https://vkvideo.ru/video200003545703_456239027',
         title: 'Про/Рок "По барабану"',
-        thumb: `${BASE}gallery/actress2.jpg`,
+        thumb: `${BASE}actress/actress03.png`,
     },
     {
         id: 4,
         embedUrl: 'https://vk.ru/video_ext.php?oid=200003545703&id=456239029&hash=85452d04ecaf261c',
         externalUrl: 'https://vkvideo.ru/video200003545703_456239029',
         title: 'Я актер. Всероссийский конкурс чтецов "Про/Рок" "Смельчак и ветер". Лауреат 3 степени (всероссийский этап)',
-        thumb: `${BASE}gallery/actress3.jpg`,
+        thumb: `${BASE}actress/actress04.png`,
     },
 ]
 
