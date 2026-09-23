@@ -82,8 +82,8 @@ export default function Hero() {
                                                                            Узнать больше
                                                                                       </a>
 
-                                                                                <a href="#photogallery" className="hero-cta hero-cta-secondary">
-                                                                                  Фото выступлений &#10132;
+                                                                                <a href="#video" className="hero-cta hero-cta-secondary">
+                                                                                   Выступления &#10132;
                                                                                              </a>
                                                                           </div>
 
